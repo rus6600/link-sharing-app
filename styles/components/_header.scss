@@ -1,0 +1,19 @@
+@import '../variables';
+@import '../mixins';
+
+.header {
+    display: flex;
+    padding: 1rem 1.5rem;
+    align-items: center;
+    border-radius: 12px;
+    background-color: #{$white};
+}
+
+.header__switch {
+    @include flexbox($justifyContent: space-between, $gap: 1rem);
+    margin-inline: auto;
+}
+
+.header__logo {
+    @include flexbox($alignItems: center, $gap: 6px);
+}

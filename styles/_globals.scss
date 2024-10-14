@@ -1,0 +1,22 @@
+@use 'variables';
+
+:root {
+    --clr-purple-600: #{variables.$purple-600};
+    --clr-purple-400: #{variables.$purple-400};
+    --clr-purple-300: #{variables.$purple-300};
+    --clr-black: #{variables.$black};
+    --clr-grey-600: #{variables.$grey-600};
+    --clr-grey-400: #{variables.$grey-400};
+    --clr-grey-300: #{variables.$grey-300};
+    --clr-white: #{variables.$white};
+    --clr-red: #{variables.$red};
+}
+
+body {
+    background-color: #{variables.$grey-300};
+}
+
+.container {
+    margin-inline: auto;
+    width: min(100%, #{variables.$container-width});
+}

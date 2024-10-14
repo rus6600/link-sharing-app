@@ -1,0 +1,50 @@
+@import '../../variables';
+@import '../../mixins';
+
+.button-primary {
+    @include button;
+}
+
+.button-icon {
+    @include button;
+    @include flexbox($alignItems: center, $gap: 8px);
+}
+
+.button-link {
+    @include button;
+}
+
+.button-reverted {
+    @include button;
+    background-color: $purple-300;
+    color: $purple-600;
+}
+
+.button-transparent {
+    @include button;
+    background-color: transparent;
+    color: $grey-600;
+
+    &:hover {
+        color: $purple-600;
+
+        & svg path {
+            fill: $purple-600;
+        }
+    }
+}
+
+.button-outlined {
+    @include button;
+    outline: 1px solid $purple-600;
+    background-color: transparent;
+    color: $purple-600;
+
+    &:hover {
+        background-color: $purple-300;
+    }
+}
+
+.button-disabled {
+    @include button;
+}

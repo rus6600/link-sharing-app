@@ -1,0 +1,59 @@
+@import 'variables';
+
+@mixin flexbox(
+    $display: flex,
+    $direction: row,
+    $placeContent: null,
+    $placeItems: null,
+    $wrap: nowrap,
+    $shrink: 0,
+    $grow: 0,
+    $alignContent: null,
+    $justifyContent: null,
+    $alignItems: null,
+    $justifyItems: null,
+    $gap: 0
+) {
+    display: $display;
+    flex-direction: $direction;
+    gap: $gap;
+    @if $placeContent == null {
+        @if $alignContent {
+            align-content: $alignContent;
+        }
+        @if $justifyContent {
+            justify-content: $justifyContent;
+        }
+    } @else {
+        place-content: $placeContent;
+    }
+
+    @if $placeItems == null {
+        @if $alignItems {
+            align-items: $alignItems;
+        }
+        @if $justifyItems {
+            justify-items: $justifyItems;
+        }
+    } @else {
+        place-items: $placeItems;
+    }
+
+    flex-wrap: $wrap;
+    flex-shrink: $shrink;
+    flex-grow: $grow;
+}
+
+@mixin button() {
+    color: #{$white};
+    background-color: #{$purple-600};
+    padding-block: #{$button-padding-block};
+    padding-inline: #{$button-padding-inline};
+    border: none;
+    border-radius: #{#{$button-border-radius}};
+    font-weight: 600;
+    line-height: 150%;
+    &:hover {
+      cursor: pointer;
+    }
+}
