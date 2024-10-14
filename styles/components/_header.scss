@@ -16,4 +16,5 @@
 
 .header__logo {
     @include flexbox($alignItems: center, $gap: 6px);
+    animation: shine-avatar $animation-duration infinite linear;
 }
