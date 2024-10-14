@@ -12,33 +12,54 @@
     border-radius: 2rem;
     outline-offset: 10px;
     $width: 50%;
+}
+
+.phone_upper {
+    position: relative;
+    width: $phone-upper-shape-width;
+    height: $phone-upper-shape-height;
+    top: -2px;
+    left: calc(50% - calc($phone-upper-shape-width / 2));
+    border: 2px solid $grey-300;
 
     &:after {
         content: '';
-        height: 30px;
-        width: $width;
-        border: 2px solid $grey-600;
-        border-top: none;
         position: absolute;
-        top: 0;
-        left: calc(50% - $width/2);
-        border-radius: 0 0 25px 25px;
+        top: -2px;
+        left: -20px;
+        height: $phone-upper-radius-width;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        border: 2px solid $grey-600;
+        clip-path: circle(50% at 100% 0);
     }
-
     &:before {
         content: '';
         position: absolute;
         top: -2px;
-        left: calc((50% - $width/2) + 2px);
-        height: 2px;
-        width: calc($width - 4px);
-        background-color: white;
+        height: $phone-upper-radius-width;
+        right: -20px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        border: 2px solid $grey-600;
+        clip-path: circle(50% at 0 0);
     }
+}
+
+.phone_lower {
+    position: relative;
+    top: -3px;
+    left: calc(50% - calc($phone-lower-shape-width / 2));
+    width: $phone-lower-shape-width;
+    height: $phone-upper-shape-height;
+    border: 2px solid $grey-600;
+    border-radius: 0 0 20px 20px;
+    border-top: none;
 }
 
 .phone__avatar {
     height: 96px;
-    margin: 53px auto 0 auto;
+    margin: 35px auto 0 auto;
     aspect-ratio: 1/1;
     border-radius: 50%;
     background-color: $skeleton;

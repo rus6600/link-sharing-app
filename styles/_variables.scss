@@ -29,3 +29,10 @@ $button-padding-inline: 27px;
 $button-padding-block: 11px;
 $button-text-color: #{$white};
 $button-border-radius: 8px;
+
+// phone
+
+$phone-upper-shape-height: 1rem;
+$phone-upper-shape-width: 50%;
+$phone-upper-radius-width: 30px;
+$phone-lower-shape-width: calc($phone-upper-shape-width - (20px));
