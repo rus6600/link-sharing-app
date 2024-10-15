@@ -1,0 +1,10 @@
+@import '.././variables';
+@import '.././mixins';
+
+.customize-links {
+    @include flexbox($direction: column);
+
+    h1 {
+        line-height: 1.5;
+    }
+}

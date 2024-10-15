@@ -10,20 +10,17 @@ export const Phone = observer(() => {
     const store = useContext(PostStoreContext)
 
     return (
-        <>
-            <div className="phone">
-                <div className="phone_upper" />
-                <div className="phone_lower" />
-
-                <Avatar />
-                <Placeholder />
-                <Placeholder small />
-                <Link></Link>
-                <Link></Link>
-                <Link></Link>
-                <Link></Link>
-                <Link></Link>
-            </div>
-        </>
+        <div className="phone">
+            <div className="phone_upper" />
+            <div className="phone_lower" />
+            <Avatar />
+            <Placeholder />
+            <Placeholder small />
+            <Link></Link>
+            <Link></Link>
+            <Link></Link>
+            <Link></Link>
+            <Link></Link>
+        </div>
     )
 })

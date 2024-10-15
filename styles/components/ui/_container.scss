@@ -1,0 +1,22 @@
+@import '../../variables';
+
+.container {
+  display: grid;
+  grid-template-areas:
+        'header header'
+        'phone customize-links ';
+  margin-inline: auto;
+  width: min(100%, $container-width);
+
+  & .header {
+    grid-area: header;
+  }
+
+  & .phone {
+    grid-area: phone;
+  }
+
+  & .customize-links {
+    grid-area: customize-links;
+  }
+}

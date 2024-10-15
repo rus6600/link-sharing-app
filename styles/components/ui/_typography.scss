@@ -1,0 +1,45 @@
+@import '../../_variables.scss';
+
+.typography {
+    margin: 0;
+}
+
+.typography-fz-sm {
+    font-size: 12px;
+}
+
+.typography-fz-md {
+    font-size: 16px;
+}
+
+.typography-fz-lg {
+    font-size: 32px;
+}
+
+.typography-clr-purple-600 {
+    color: $purple-600;
+}
+.typography-clr-purple-400 {
+    color: $purple-400;
+}
+.typography-clr-purple-300 {
+    color: $purple-300;
+}
+.typography-clr-black {
+    color: $black;
+}
+.typography-clr-grey-600 {
+    color: $grey-600;
+}
+.typography-clr-grey-400 {
+    color: $grey-400;
+}
+.typography-clr-grey-300 {
+    color: $grey-300;
+}
+.typography-clr-white {
+    color: $white;
+}
+.typography-clr-red {
+    color: $red;
+}

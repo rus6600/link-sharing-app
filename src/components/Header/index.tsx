@@ -11,15 +11,17 @@ export const Header = () => {
                 <Button
                     variant="reverted"
                     icon={<LinksIcon fill={'#633cff'} />}
-                    title="Links"
-                />
+                >
+                    Links
+                </Button>
                 <Button
                     variant="transparent"
                     icon={<UserIcon fill="#737373" />}
-                    title="Profile Details"
-                />
+                >
+                    Profile Details
+                </Button>
             </div>
-            <Button variant="outlined" title="Preview" />
+            <Button variant="outlined">Preview</Button>
         </header>
     )
 }

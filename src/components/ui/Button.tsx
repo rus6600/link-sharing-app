@@ -5,10 +5,15 @@ import {
     ButtonLinkType,
 } from '../../shared'
 
-export const Button = ({ variant, title, icon, ...rest }: ButtonPropsType) => {
+export const Button = ({
+    variant,
+    children,
+    icon,
+    ...rest
+}: ButtonPropsType) => {
     const baseButton = (
         <button className={`button button-${variant}`} {...rest}>
-            {title}
+            {children}
         </button>
     )
     if (variant === ButtonVariantEnum.link) {
@@ -23,7 +28,7 @@ export const Button = ({ variant, title, icon, ...rest }: ButtonPropsType) => {
                 {...rest}
             >
                 {icon}
-                {title}
+                {children}
             </button>
         )
     }

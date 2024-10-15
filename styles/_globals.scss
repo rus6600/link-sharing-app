@@ -13,10 +13,9 @@
 }
 
 body {
+    margin: 0;
     background-color: #{variables.$grey-300};
 }
 
-.container {
-    margin-inline: auto;
-    width: min(100%, #{variables.$container-width});
-}
+
+

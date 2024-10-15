@@ -1,4 +1,4 @@
-import { ComponentProps, ReactElement } from 'react'
+import { ComponentProps, ReactElement, ReactNode } from 'react'
 
 type ButtonVariantUnion =
     | 'primary'
@@ -31,4 +31,5 @@ export type BaseButtonType = {
 
 export type ButtonPropsType = ComponentProps<'button'> & {
     icon?: ReactElement
+    children: ReactNode
 } & (ButtonLinkType | BaseButtonType)

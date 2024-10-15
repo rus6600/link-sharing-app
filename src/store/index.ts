@@ -4,13 +4,12 @@ import { createContext } from 'react'
 class Store {
     constructor() {
         makeObservable(this, {
-            count: observable,
-            inc: action,
-            dec: action,
-            double: computed,
-            posts: observable,
-            loading: observable,
-            setPosts: action,
+            // count: observable,
+            // dec: action,
+            // double: computed,
+            // posts: observable,
+            // loading: observable,
+            // setPosts: action,
         })
     }
 
