@@ -3,8 +3,35 @@
 
 .customize-links {
     @include flexbox($direction: column);
+    padding: 40px;
+    border-radius: 12px;
+    background-color: $white;
 
-    h1 {
-        line-height: 1.5;
+    & > *:nth-child(2) {
+        margin-top: 8px;
+    }
+
+    & > *:nth-child(3) {
+        margin-top: 40px;
+    }
+
+}
+
+.customize-links__getstarted {
+    @include flexbox($direction: column, $alignItems: center);
+    margin: 40px auto 0 auto;
+    padding-block: 43.5px;
+    border-radius: 12px;
+    background-color: $grey-300;
+
+    h2 {
+        margin-top: 40px;
+    }
+    p {
+        max-width: 69%;
+    }
+
+    svg {
+        margin: 62.5px auto 0 auto;
     }
 }

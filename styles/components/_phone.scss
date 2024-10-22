@@ -1,11 +1,15 @@
 @import '../variables';
 @import '../mixins';
 
+.layout-preview {
+    padding: 111.5px 126.5px;
+    background-color: $white;
+}
+
 .phone {
     $width: 50%;
     @include flexbox($direction: column, $alignContent: center);
     position: relative;
-    margin-top: 2rem;
     height: 631px;
     width: 307px;
     outline: 2px solid $grey-600;
@@ -21,7 +25,6 @@
     top: -2px;
     left: calc(50% - calc($phone-upper-shape-width / 2));
     border: 2px solid $grey-300;
-
 
     &:after {
         content: '';

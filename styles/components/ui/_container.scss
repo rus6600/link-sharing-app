@@ -1,22 +1,23 @@
 @import '../../variables';
 
 .container {
-  display: grid;
-  grid-template-areas:
+    display: grid;
+    width: min(100%, $container-width);
+    margin-inline: auto;
+    grid-template-areas:
         'header header'
         'phone customize-links ';
-  margin-inline: auto;
-  width: min(100%, $container-width);
+    gap: 24px;
 
-  & .header {
-    grid-area: header;
-  }
+    & .header {
+        grid-area: header;
+    }
 
-  & .phone {
-    grid-area: phone;
-  }
+    & .phone {
+        grid-area: phone;
+    }
 
-  & .customize-links {
-    grid-area: customize-links;
-  }
+    & .customize-links {
+        grid-area: customize-links;
+    }
 }

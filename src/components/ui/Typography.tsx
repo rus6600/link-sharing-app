@@ -6,8 +6,10 @@ export const Typography = ({
     variant = 'p',
     children,
     fontSize = 'md',
+    textAlign = 'center',
+    fontWeight,
     color = 'black',
 }: TypographyProps) => {
-    const className = `typography ${color ? `typography-clr-${color}` : ''} ${fontSize ? `typography-fz-${fontSize}` : ''}`
+    const className = `typography ${textAlign ? `typography-align-${textAlign}` : ''} ${color ? `typography-clr-${color}` : ''} ${fontSize ? `typography-fz-${fontSize}` : ''} ${fontWeight ? `typography-fw-${fontWeight}` : ''}`
     return createElement(variant, { className }, children)
 }

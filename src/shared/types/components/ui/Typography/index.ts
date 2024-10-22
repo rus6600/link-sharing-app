@@ -23,7 +23,8 @@ type colorsUnion =
     | 'skeleton'
 
 type fontSizeUnion = 'lg' | 'md' | 'sm'
-type fontWeightUnion = '300' | '400' | '700'
+type fontWeightUnion = '400' | '600' | '700'
+type textAlignUnion = 'center' | 'left' | 'right'
 
 export type TypographyProps = {
     variant?: VariantUnion
@@ -31,4 +32,5 @@ export type TypographyProps = {
     fontSize?: fontSizeUnion
     color?: colorsUnion
     fontWeight?: fontWeightUnion
+    textAlign?: textAlignUnion
 }

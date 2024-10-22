@@ -1,6 +1,6 @@
 import '../styles/styles.scss'
 import { Header } from './components'
-import { Phone } from './components/Phone'
+import { LayoutPreview } from './components/LayoutPreview'
 import { counterStore, PostStoreContext } from './store'
 import { CustomizeLinks } from './components/CustomizeLinks'
 import { Container } from './components/ui'
@@ -10,7 +10,7 @@ function App() {
         <PostStoreContext.Provider value={counterStore}>
             <Container>
                 <Header></Header>
-                <Phone />
+                <LayoutPreview />
                 <CustomizeLinks />
             </Container>
         </PostStoreContext.Provider>

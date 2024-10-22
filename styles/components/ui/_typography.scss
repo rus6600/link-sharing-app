@@ -2,6 +2,7 @@
 
 .typography {
     margin: 0;
+    line-height: 150%;
 }
 
 .typography-fz-sm {
@@ -14,6 +15,19 @@
 
 .typography-fz-lg {
     font-size: 32px;
+}
+
+
+.typography-fw-400 {
+    font-weight: 400;
+}
+
+.typography-fw-600 {
+    font-weight: 600;
+}
+
+.typography-fw-700 {
+    font-weight: 700;
 }
 
 .typography-clr-purple-600 {
@@ -42,4 +56,16 @@
 }
 .typography-clr-red {
     color: $red;
+}
+
+.typography-align-center {
+    text-align: center;
+}
+
+.typography-align-left {
+    text-align: left;
+}
+
+.typography-align-right {
+    text-align: right;
 }

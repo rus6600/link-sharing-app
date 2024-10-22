@@ -1,20 +1,20 @@
-@use 'variables';
+@import 'variables';
 
 :root {
-    --clr-purple-600: #{variables.$purple-600};
-    --clr-purple-400: #{variables.$purple-400};
-    --clr-purple-300: #{variables.$purple-300};
-    --clr-black: #{variables.$black};
-    --clr-grey-600: #{variables.$grey-600};
-    --clr-grey-400: #{variables.$grey-400};
-    --clr-grey-300: #{variables.$grey-300};
-    --clr-white: #{variables.$white};
-    --clr-red: #{variables.$red};
+    --clr-purple-600: #{$purple-600};
+    --clr-purple-400: #{$purple-400};
+    --clr-purple-300: #{$purple-300};
+    --clr-black: #{$black};
+    --clr-grey-600: #{$grey-600};
+    --clr-grey-400: #{$grey-400};
+    --clr-grey-300: #{$grey-300};
+    --clr-white: #{$white};
+    --clr-red: #{$red};
 }
 
 body {
     margin: 0;
-    background-color: #{variables.$grey-300};
+    background-color: #{$grey-300};
 }
 
 
