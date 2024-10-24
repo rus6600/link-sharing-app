@@ -28,6 +28,34 @@ export class MobxMutation<
         private queryClient: QueryClient
     ) {}
 
+    get data() {
+        return this.reactMutationResult.data
+    }
+
+    get error() {
+        return this.reactMutationResult.error ?? null
+    }
+
+    get isError() {
+        return this.reactMutationResult.isError ?? false
+    }
+
+    get isIdle() {
+        return this.reactMutationResult.isIdle ?? true
+    }
+
+    get isLoading() {
+        return this.reactMutationResult.isLoading ?? false
+    }
+
+    get isSuccess() {
+        return this.reactMutationResult.isSuccess ?? false
+    }
+
+    get status() {
+        return this.reactMutationResult.status ?? 'idle'
+    }
+
     mutate(
         variables: TVariables,
         options?: MutationObserverOptions<TData, TError, TVariables, TContext>
@@ -54,9 +82,7 @@ export class MobxMutation<
 
         try {
             await this.observer.mutate(variables, options)
-        } catch (e) {
-            console.log(e)
-        }
+        } catch (e) {}
         return this.reactMutationResult
     }
 
@@ -65,4 +91,5 @@ export class MobxMutation<
     }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 function noop() {}

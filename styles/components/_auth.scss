@@ -11,6 +11,7 @@
 
 .auth-wrapper {
     display: flex;
+    width: min($form-width, 100%);
     flex-direction: column;
     align-items: center;
     gap: 51px;
@@ -18,6 +19,7 @@
 
 .form {
     display: flex;
+    width: 100%;
     padding: 40px;
     flex-direction: column;
     border-radius: 12px;

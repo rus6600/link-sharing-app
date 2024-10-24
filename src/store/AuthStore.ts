@@ -1,23 +1,17 @@
-import { makeObservable } from 'mobx'
-import axios from 'axios'
+import { makeAutoObservable } from 'mobx'
 
 import { MobxQuery } from '../shared/lib/mobxQuery'
 import { queryClient } from '../shared/lib/api'
 import { MobxMutation } from '../shared/lib/mobxMutation'
-
-const postTodo = (args: Record<string, string>) => {
-    return axios.post('http://localhost:3000/auth/signup', args)
-}
+import { signIn, signUp } from '../shared/lib/authApi'
 
 export class AuthStore {
     rootStore
+    private signInFormShown = true
     constructor(rootStore: unknown) {
         this.rootStore = rootStore
-        makeObservable(this, {})
+        makeAutoObservable(this, {})
     }
-
-    showPassword = false
-
     postsQuery = new MobxQuery(
         () => ({
             queryKey: ['posts'],
@@ -29,10 +23,23 @@ export class AuthStore {
         queryClient
     )
 
-    mutateQuery = new MobxMutation(
+    signUpMutation = new MobxMutation(
         () => ({
-            mutationFn: postTodo,
-            mutationKey: ['posts'],
+            mutationFn: signUp,
+            mutationKey: ['signUp'],
+            onSuccess: () => {
+                // queryClient.invalidateQueries({ queryKey: ['posts'] })
+            },
+            onError: () => {
+                console.log('burrr')
+            },
+        }),
+        queryClient
+    )
+    signInMutation = new MobxMutation(
+        () => ({
+            mutationFn: signIn,
+            mutationKey: ['signIn'],
             onSuccess: () => {
                 // queryClient.invalidateQueries({ queryKey: ['posts'] })
             },
@@ -48,7 +55,17 @@ export class AuthStore {
         return this.postsQuery.result()
     }
 
-    postUser() {
-        return this.mutateQuery
+    get showSignInForm() {
+        return this.signInFormShown
+    }
+    handleSubmit(formData: Record<string, string>) {
+        if (this.signInFormShown) {
+            this.signInMutation.mutate(formData)
+        } else {
+            this.signUpMutation.mutate(formData)
+        }
+    }
+    toggleForm = () => {
+        this.signInFormShown = !this.signInFormShown
     }
 }

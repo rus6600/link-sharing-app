@@ -7,10 +7,10 @@ import { rootStore, RootStoreContext } from './store'
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <RootStoreContext.Provider value={rootStore}>
+        <RootStoreContext.Provider value={rootStore}>
+            <QueryClientProvider client={queryClient}>
                 <App />
-            </RootStoreContext.Provider>
-        </QueryClientProvider>
+            </QueryClientProvider>
+        </RootStoreContext.Provider>
     </StrictMode>
 )
