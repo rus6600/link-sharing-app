@@ -7,7 +7,7 @@ import { signIn, signUp } from '../shared/lib/authApi'
 
 export class AuthStore {
     rootStore
-    private signInFormShown = true
+    private signInFormShown = false
     constructor(rootStore: unknown) {
         this.rootStore = rootStore
         makeAutoObservable(this, {})
@@ -53,6 +53,10 @@ export class AuthStore {
     getPosts() {
         // console.log(this.postsQuery.result())
         return this.postsQuery.result()
+    }
+
+    get signUpMutationStatus() {
+        return this.signUpMutation.status
     }
 
     get showSignInForm() {
