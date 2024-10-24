@@ -1,0 +1,46 @@
+@import '../../variables';
+@import '../../mixins';
+
+.dialog {
+    padding: 0;
+    width: min($modal-width,100%);
+    border: 1px solid $grey-600;
+    border-radius: $modal-border-radius;
+}
+
+.dialog::backdrop {
+    background: rgb(0 0 0 / 0.7);
+}
+
+.dialog__content {
+    position: relative;
+    @include flexbox(
+        $direction: column,
+        $alignContent: space-between,
+        $justifyContent: space-between,
+    );
+    padding: $modal-padding-block $modal-padding-inline;
+
+    border: none;
+    border-radius: $modal-border-radius;
+}
+.dialog__content_exit_btn {
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    width: min-content;
+    height: 4px;
+    aspect-ratio: 1/1;
+    right: 3%;
+    top: 2%;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.dialog__content_exit_btn::after {
+    position: absolute;
+    content: '\00d7';
+    transform: scale(1.5);
+}

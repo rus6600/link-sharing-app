@@ -47,6 +47,7 @@ export class AuthQuery<
         })
     }
     private stopTracking() {
+        console.log('stopeed tracking')
         this.unsubscribe()
     }
     private get defaultQueryOptions() {

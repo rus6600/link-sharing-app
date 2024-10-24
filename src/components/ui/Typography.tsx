@@ -9,7 +9,9 @@ export const Typography = ({
     textAlign = 'center',
     fontWeight,
     color = 'black',
+    marginBlock,
 }: TypographyProps) => {
-    const className = `typography ${textAlign ? `typography-align-${textAlign}` : ''} ${color ? `typography-clr-${color}` : ''} ${fontSize ? `typography-fz-${fontSize}` : ''} ${fontWeight ? `typography-fw-${fontWeight}` : ''}`
+    console.log(marginBlock)
+    const className = `typography ${textAlign ? `typography-align-${textAlign}` : ''} ${color ? `typography-clr-${color}` : ''} ${fontSize ? `typography-fz-${fontSize}` : ''} ${marginBlock ? `typography-m-${marginBlock}` : ''} ${fontWeight ? `typography-fw-${fontWeight}` : ''}`
     return createElement(variant, { className }, children)
 }

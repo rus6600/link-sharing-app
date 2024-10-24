@@ -9,9 +9,8 @@ import { RootStoreContext } from '../../store'
 
 export const SignUp: React.FC<AuthFormComponentProps> = ({ onSwitch }) => {
     const {
-        authStore: { signUpMutation },
+        authStore: { signUpStatus },
     } = useContext(RootStoreContext)
-    const { isLoading } = signUpMutation.getInstance().getCurrentResult()
     const passwordRef = useRef<InputRef>(null)
     const confirmPasswordRef = useRef<InputRef>(null)
     return (
@@ -27,7 +26,7 @@ export const SignUp: React.FC<AuthFormComponentProps> = ({ onSwitch }) => {
             <Typography textAlign={'left'} color={'grey-600'}>
                 Let’s get you started sharing your links!
             </Typography>
-            <fieldset disabled={isLoading} className="fieldset">
+            <fieldset disabled={signUpStatus.isLoading} className="fieldset">
                 <Input
                     required
                     name="email"

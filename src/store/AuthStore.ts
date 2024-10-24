@@ -4,13 +4,16 @@ import { queryClient } from '../shared/lib/api'
 import { getUsers, signIn, signUp } from '../shared/lib/authApi'
 import { AuthMutation } from '../shared/lib/authApi/mutation'
 import { AuthQuery } from '../shared/lib/authApi/query'
+import { AxiosError, AxiosResponse } from 'axios'
+import { userModel } from '../shared/models'
 
 export class AuthStore {
     rootStore
     private signInFormShown = true
+    private isAuthenticated = false
     constructor(rootStore: unknown) {
         this.rootStore = rootStore
-        makeAutoObservable(this)
+        makeAutoObservable(this, {})
     }
     postsQuery = new AuthQuery(
         () => ({
@@ -20,20 +23,43 @@ export class AuthStore {
         queryClient
     )
 
-    signUpMutation = new AuthMutation(
+    signUpMutation = new AuthMutation<
+        AxiosResponse<{ accessToken: string; refreshToken: string }>,
+        AxiosError<{ message: string }>,
+        userModel,
+        Record<number, string>
+    >(
         () => ({
             mutationFn: signUp,
             mutationKey: ['signUp'],
-            onSuccess: () => {
+            onSuccess: ({ data }) => {
+                localStorage.setItem(
+                    'social-link-share-access-token',
+                    data.accessToken
+                )
+                this.isAuthenticated = true
                 // queryClient.invalidateQueries({ queryKey: ['posts'] })
             },
         }),
         queryClient
     )
-    signInMutation = new AuthMutation(
+    signInMutation = new AuthMutation<
+        AxiosResponse<{ accessToken: string; refreshToken: string }>,
+        AxiosError<{ message: string }>,
+        userModel,
+        Record<number, string>
+    >(
         () => ({
             mutationFn: signIn,
             mutationKey: ['signIn'],
+            onSuccess: ({ data }) => {
+                localStorage.setItem(
+                    'social-link-share-access-token',
+                    data.accessToken
+                )
+                this.isAuthenticated = true
+                // queryClient.invalidateQueries({ queryKey: ['posts'] })
+            },
         }),
         queryClient
     )
@@ -47,17 +73,27 @@ export class AuthStore {
         return this.signUpMutation
     }
 
+    get isUserAuthenticated() {
+        return this.isAuthenticated
+    }
+
     get showSignInForm() {
         return this.signInFormShown
     }
-    async handleSubmit(formData: Record<string, string>) {
+    get signUpStatus() {
+        return this.signUpMutation.status()
+    }
+    async handleSubmit(formData: userModel) {
         if (this.signInFormShown) {
-            await this.signInMutation.getInstance().mutate(formData)
+            return await this.signInMutation.mutate(formData)
         } else {
-            await this.signUpMutation.getInstance().mutate(formData)
+            return await this.signUpMutation.mutate(formData)
         }
     }
     toggleForm = () => {
         this.signInFormShown = !this.signInFormShown
+    }
+    resetForm() {
+        this.signUpMutation.reset()
     }
 }

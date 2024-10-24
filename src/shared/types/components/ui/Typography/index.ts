@@ -25,6 +25,7 @@ type colorsUnion =
 type fontSizeUnion = 'lg' | 'md' | 'sm'
 type fontWeightUnion = '400' | '600' | '700'
 type textAlignUnion = 'center' | 'left' | 'right'
+type merginBlockUnion = '8' | '16' | '32'
 
 export type TypographyProps = {
     variant?: VariantUnion
@@ -33,4 +34,5 @@ export type TypographyProps = {
     color?: colorsUnion
     fontWeight?: fontWeightUnion
     textAlign?: textAlignUnion
+    marginBlock?: merginBlockUnion
 }

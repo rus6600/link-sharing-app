@@ -1,4 +1,4 @@
-import React, { FormEvent, useContext } from 'react'
+import React, { FormEvent, useContext, useRef } from 'react'
 import { observer } from 'mobx-react-lite'
 
 import { Logo } from '../Header/Logo'
@@ -8,16 +8,25 @@ import { SignUp } from './SignUp'
 
 import '@style/_auth.scss'
 import '@style/_header.scss'
+import { Modal } from '../ui/Modal'
+import { Button, Typography } from '../ui'
 
 export const Auth: React.FC = observer(() => {
+    const modalRef = useRef<HTMLDialogElement>(null)
     const { authStore } = useContext(RootStoreContext)
+    const handleOnSignInError = () => {
+        authStore.toggleForm()
+        modalRef.current?.close()
+    }
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const formData = {
             email: e.currentTarget.email.value,
             password: e.currentTarget.password.value,
         }
-        authStore.handleSubmit(formData)
+        authStore.handleSubmit(formData).catch(() => {
+            modalRef?.current?.showModal()
+        })
     }
     return (
         <section className={'auth-bg'}>
@@ -31,6 +40,23 @@ export const Auth: React.FC = observer(() => {
                     )}
                 </form>
             </div>
+            <Modal onClose={() => modalRef.current?.close()} ref={modalRef}>
+                {authStore.showSignInForm ? (
+                    <>
+                        <Typography marginBlock={'16'}>
+                            User not found :(
+                        </Typography>
+                        <Button
+                            variant={'primary'}
+                            onClick={handleOnSignInError}
+                        >
+                            Sign up!
+                        </Button>
+                    </>
+                ) : (
+                    authStore.signUpStatus?.error?.response?.data.message
+                )}
+            </Modal>
         </section>
     )
 })

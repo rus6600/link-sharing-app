@@ -32,11 +32,18 @@ export class AuthMutation<
     private get defaultQueryOptions() {
         return this.queryClient.defaultMutationOptions(this.defaultOptions())
     }
-    getInstance() {
+    async mutate(formData: TVariables) {
         this.atom.reportObserved()
-        return this.queryObserver
+        await this.queryObserver.mutate(formData)
     }
-
+    status() {
+        this.atom.reportObserved()
+        return this.queryObserver.getCurrentResult()
+    }
+    reset() {
+        this.atom.reportChanged()
+        this.queryObserver.reset()
+    }
     private unsubscribe() {}
 
     private startTracking() {

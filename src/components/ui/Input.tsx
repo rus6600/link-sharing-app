@@ -1,4 +1,4 @@
-import React, { forwardRef, useId } from 'react'
+import { forwardRef, useId } from 'react'
 import '@style/ui/_input.scss'
 
 import { InputRef, InputType } from '../../shared/types/components/ui/InputType'
