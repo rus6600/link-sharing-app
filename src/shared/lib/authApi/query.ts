@@ -6,7 +6,7 @@ import type {
     QueryObserverOptions,
 } from '@tanstack/query-core/src/types'
 
-export class MobxQuery<
+export class AuthQuery<
     TQueryFnData = unknown,
     TError = unknown,
     TData = TQueryFnData,
@@ -14,7 +14,7 @@ export class MobxQuery<
     TQueryKey extends QueryKey = QueryKey,
 > {
     private atom = createAtom(
-        'MobxQuery',
+        'AuthQuery',
         () => this.startTracking(),
         () => this.stopTracking()
     )
@@ -33,7 +33,7 @@ export class MobxQuery<
         private queryClient: QueryClient
     ) {}
 
-    result() {
+    query() {
         this.atom.reportObserved()
         return this.queryObserver.getOptimisticResult(this.defaultQueryOptions)
     }

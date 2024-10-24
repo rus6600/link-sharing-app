@@ -1,72 +1,60 @@
 import { makeAutoObservable } from 'mobx'
 
-import { MobxQuery } from '../shared/lib/mobxQuery'
 import { queryClient } from '../shared/lib/api'
-import { MobxMutation } from '../shared/lib/mobxMutation'
-import { signIn, signUp } from '../shared/lib/authApi'
+import { getUsers, signIn, signUp } from '../shared/lib/authApi'
+import { AuthMutation } from '../shared/lib/authApi/mutation'
+import { AuthQuery } from '../shared/lib/authApi/query'
 
 export class AuthStore {
     rootStore
-    private signInFormShown = false
+    private signInFormShown = true
     constructor(rootStore: unknown) {
         this.rootStore = rootStore
-        makeAutoObservable(this, {})
+        makeAutoObservable(this)
     }
-    postsQuery = new MobxQuery(
+    postsQuery = new AuthQuery(
         () => ({
-            queryKey: ['posts'],
-            queryFn: async () => {
-                const response = await fetch('http://localhost:3000/users')
-                return await response.json()
-            },
+            queryKey: ['users'],
+            queryFn: getUsers,
         }),
         queryClient
     )
 
-    signUpMutation = new MobxMutation(
+    signUpMutation = new AuthMutation(
         () => ({
             mutationFn: signUp,
             mutationKey: ['signUp'],
             onSuccess: () => {
                 // queryClient.invalidateQueries({ queryKey: ['posts'] })
             },
-            onError: () => {
-                console.log('burrr')
-            },
         }),
         queryClient
     )
-    signInMutation = new MobxMutation(
+    signInMutation = new AuthMutation(
         () => ({
             mutationFn: signIn,
             mutationKey: ['signIn'],
-            onSuccess: () => {
-                // queryClient.invalidateQueries({ queryKey: ['posts'] })
-            },
-            onError: () => {
-                console.log('burrr')
-            },
         }),
         queryClient
     )
 
-    getPosts() {
+    getUsers() {
         // console.log(this.postsQuery.result())
-        return this.postsQuery.result()
+        return this.postsQuery.query()
     }
 
     get signUpMutationStatus() {
-        return this.signUpMutation.status
+        return this.signUpMutation
     }
 
     get showSignInForm() {
         return this.signInFormShown
     }
-    handleSubmit(formData: Record<string, string>) {
+    async handleSubmit(formData: Record<string, string>) {
         if (this.signInFormShown) {
-            this.signInMutation.mutate(formData)
+            await this.signInMutation.getInstance().mutate(formData)
         } else {
-            this.signUpMutation.mutate(formData)
+            await this.signUpMutation.getInstance().mutate(formData)
         }
     }
     toggleForm = () => {
