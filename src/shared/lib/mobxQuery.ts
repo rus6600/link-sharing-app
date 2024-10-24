@@ -6,7 +6,7 @@ import type {
     QueryObserverOptions,
 } from '@tanstack/query-core/src/types'
 
-export class AuthQuery<
+export class MobxQuery<
     TQueryFnData = unknown,
     TError = unknown,
     TData = TQueryFnData,

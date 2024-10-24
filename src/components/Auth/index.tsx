@@ -11,52 +11,59 @@ import '@style/_header.scss'
 import { Modal } from '../ui/Modal'
 import { Button, Typography } from '../ui'
 
-export const Auth: React.FC = observer(() => {
-    const modalRef = useRef<HTMLDialogElement>(null)
-    const { authStore } = useContext(RootStoreContext)
-    const handleOnSignInError = () => {
-        authStore.toggleForm()
-        modalRef.current?.close()
-    }
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        const formData = {
-            email: e.currentTarget.email.value,
-            password: e.currentTarget.password.value,
+export const WithAuth: React.FC<{ children: React.ReactNode }> = observer(
+    ({ children }) => {
+        const modalRef = useRef<HTMLDialogElement>(null)
+        const { authStore } = useContext(RootStoreContext)
+
+        if (authStore.isUserAuthenticated) {
+            return children
         }
-        authStore.handleSubmit(formData).catch(() => {
-            modalRef?.current?.showModal()
-        })
-    }
-    return (
-        <section className={'auth-bg'}>
-            <div className="auth-wrapper">
-                <Logo />
-                <form onSubmit={handleSubmit} className="form">
+
+        const handleOnSignInError = () => {
+            authStore.toggleForm()
+            modalRef.current?.close()
+        }
+        const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+            e.preventDefault()
+            const formData = {
+                email: e.currentTarget.email.value,
+                password: e.currentTarget.password.value,
+            }
+            authStore.handleSubmit(formData).catch(() => {
+                modalRef?.current?.showModal()
+            })
+        }
+        return (
+            <section className={'auth-bg'}>
+                <div className="auth-wrapper">
+                    <Logo />
+                    <form onSubmit={handleSubmit} className="form">
+                        {authStore.showSignInForm ? (
+                            <SignIn onSwitch={authStore.toggleForm} />
+                        ) : (
+                            <SignUp onSwitch={authStore.toggleForm} />
+                        )}
+                    </form>
+                </div>
+                <Modal onClose={() => modalRef.current?.close()} ref={modalRef}>
                     {authStore.showSignInForm ? (
-                        <SignIn onSwitch={authStore.toggleForm} />
+                        <>
+                            <Typography marginBlock={'16'}>
+                                User not found :(
+                            </Typography>
+                            <Button
+                                variant={'primary'}
+                                onClick={handleOnSignInError}
+                            >
+                                Sign up!
+                            </Button>
+                        </>
                     ) : (
-                        <SignUp onSwitch={authStore.toggleForm} />
+                        authStore.signUpStatus?.error?.response?.data.message
                     )}
-                </form>
-            </div>
-            <Modal onClose={() => modalRef.current?.close()} ref={modalRef}>
-                {authStore.showSignInForm ? (
-                    <>
-                        <Typography marginBlock={'16'}>
-                            User not found :(
-                        </Typography>
-                        <Button
-                            variant={'primary'}
-                            onClick={handleOnSignInError}
-                        >
-                            Sign up!
-                        </Button>
-                    </>
-                ) : (
-                    authStore.signUpStatus?.error?.response?.data.message
-                )}
-            </Modal>
-        </section>
-    )
-})
+                </Modal>
+            </section>
+        )
+    }
+)

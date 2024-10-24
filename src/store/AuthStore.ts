@@ -1,9 +1,8 @@
 import { makeAutoObservable } from 'mobx'
 
-import { queryClient } from '../shared/lib/api'
-import { getUsers, signIn, signUp } from '../shared/lib/authApi'
-import { AuthMutation } from '../shared/lib/authApi/mutation'
-import { AuthQuery } from '../shared/lib/authApi/query'
+import { queryClient, signUp, getUsers, signIn } from '../shared/lib/api'
+import { MobxMutation } from '../shared/lib/mobxMutation'
+import { MobxQuery } from '../shared/lib/mobxQuery'
 import { AxiosError, AxiosResponse } from 'axios'
 import { userModel } from '../shared/models'
 
@@ -15,7 +14,7 @@ export class AuthStore {
         this.rootStore = rootStore
         makeAutoObservable(this, {})
     }
-    postsQuery = new AuthQuery(
+    postsQuery = new MobxQuery(
         () => ({
             queryKey: ['users'],
             queryFn: getUsers,
@@ -23,7 +22,7 @@ export class AuthStore {
         queryClient
     )
 
-    signUpMutation = new AuthMutation<
+    signUpMutation = new MobxMutation<
         AxiosResponse<{ accessToken: string; refreshToken: string }>,
         AxiosError<{ message: string }>,
         userModel,
@@ -43,7 +42,7 @@ export class AuthStore {
         }),
         queryClient
     )
-    signInMutation = new AuthMutation<
+    signInMutation = new MobxMutation<
         AxiosResponse<{ accessToken: string; refreshToken: string }>,
         AxiosError<{ message: string }>,
         userModel,

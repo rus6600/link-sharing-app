@@ -3,7 +3,7 @@
 .container {
     display: grid;
     width: min(100%, $container-width);
-    margin-inline: auto;
+    margin: 1rem auto;
     grid-template-areas:
         'header header'
         'phone customize-links ';

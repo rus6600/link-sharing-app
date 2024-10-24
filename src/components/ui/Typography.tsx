@@ -11,7 +11,6 @@ export const Typography = ({
     color = 'black',
     marginBlock,
 }: TypographyProps) => {
-    console.log(marginBlock)
     const className = `typography ${textAlign ? `typography-align-${textAlign}` : ''} ${color ? `typography-clr-${color}` : ''} ${fontSize ? `typography-fz-${fontSize}` : ''} ${marginBlock ? `typography-m-${marginBlock}` : ''} ${fontWeight ? `typography-fw-${fontWeight}` : ''}`
     return createElement(variant, { className }, children)
 }

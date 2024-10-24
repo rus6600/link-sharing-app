@@ -1,7 +1,6 @@
-import { forwardRef } from 'react'
-import { ModalType } from '../../shared/types/components/ui/ModalType'
-
 import '@style/ui/_modal.scss'
+import { ModalType } from '../../shared/types/components/ui/ModalType'
+import { forwardRef } from 'react'
 import { Typography } from './Typography'
 
 export const Modal = forwardRef<HTMLDialogElement, ModalType>(

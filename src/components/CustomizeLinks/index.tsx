@@ -1,8 +1,17 @@
+import { useContext } from 'react'
+import { observer } from 'mobx-react-lite'
+
 import '@style/_customize-links.scss'
+
 import { Button, Typography } from '../ui'
 import { GetStarted } from '../Icons'
+import { RootStoreContext } from '../../store'
 
-export const CustomizeLinks = () => {
+export const CustomizeLinks = observer(() => {
+    const { userStore } = useContext(RootStoreContext)
+    const handleSubmit = async () => {
+        await userStore.addLinks([{ platform: 'git', link: 'git/burr' }])
+    }
     return (
         <section className={'customize-links'}>
             <Typography
@@ -17,7 +26,9 @@ export const CustomizeLinks = () => {
                 Add/edit/remove links below and then share all your profiles
                 with the world!
             </Typography>
-            <Button variant={'outlined'}>+ Add new link</Button>
+            <Button variant={'outlined'} onClick={handleSubmit}>
+                + Add new link
+            </Button>
             <div className="customize-links__getstarted">
                 <GetStarted />
                 <Typography variant={'h2'} fontSize="lg">
@@ -31,4 +42,4 @@ export const CustomizeLinks = () => {
             </div>
         </section>
     )
-}
+})

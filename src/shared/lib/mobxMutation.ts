@@ -5,7 +5,7 @@ import {
     QueryClient,
 } from '@tanstack/react-query'
 
-export class AuthMutation<
+export class MobxMutation<
     TData = unknown,
     TError = unknown,
     TVariables = void,

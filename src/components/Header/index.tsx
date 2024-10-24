@@ -2,9 +2,8 @@ import { LinksIcon, UserIcon } from '../Icons'
 import '@style/_header.scss'
 import { Logo } from './Logo'
 import { Button } from '../ui'
-import { observer } from 'mobx-react-lite'
 
-export const Header = observer(() => {
+export const Header = () => {
     return (
         <header className="header">
             <Logo />
@@ -25,4 +24,4 @@ export const Header = observer(() => {
             <Button variant="outlined">Preview</Button>
         </header>
     )
-})
+}
