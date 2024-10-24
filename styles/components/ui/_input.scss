@@ -1,0 +1,79 @@
+@import '../../variables';
+
+.input-container {
+    position: relative;
+    display: flex;
+    gap: 12px;
+    padding: 12px $input-padding-inline;
+    justify-content: center;
+    border: 1px solid $grey-400;
+    border-radius: $button-border-radius;
+}
+
+.input-container svg {
+}
+
+.input-container:has(.input:not(:placeholder-shown)):has(:focus) {
+    border-color: $purple-600;
+    box-shadow: $purple-box-shadow;
+}
+
+.input-wrapper:has(.input:user-invalid) {
+    .input-container {
+        border: 1px solid $red;
+    }
+
+    .input-label {
+        color: $red;
+    }
+    .input-errortext {
+        display: block;
+    }
+}
+
+.input {
+    padding: 0;
+    border: none;
+    margin-right: auto;
+    width: 100%;
+    outline: none;
+    background-color: transparent;
+}
+
+.input-label {
+    margin-bottom: 4px;
+    color: $black;
+    font-size: 12px;
+}
+
+.input-errortext {
+    position: absolute;
+    display: none;
+    padding: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    right: $input-padding-inline;
+    font-size: 12px;
+    color: $red;
+    line-height: 1;
+    z-index: 999;
+    background-color: white;
+}
+
+.input::placeholder {
+    position: relative;
+    color: $black;
+    opacity: 0.5;
+}
+
+.input::placeholder:after {
+    content: '';
+    position: absolute;
+    background-color: red;
+    width: 40px;
+    height: 40px;
+}
+
+.input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset;
+}

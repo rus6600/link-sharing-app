@@ -6,8 +6,8 @@ import { useContext } from 'react'
 import { Phone } from './Phone'
 
 export const LayoutPreview = observer(() => {
-    const store = useContext(PostStoreContext)
-
+    const state = useContext(PostStoreContext)
+    // console.log(state.getPosts())
     return (
         <section className="layout-preview">
             <Phone></Phone>

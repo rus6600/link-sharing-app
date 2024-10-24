@@ -11,9 +11,11 @@ $white: #ffffff;
 $red: #ff3939;
 $skeleton: #eeeeee;
 
+$purple-hover: #BEADFF;
 $base-color: #ddd;
 $shine-color: #e8e8e8;
 $animation-duration: 2.6s;
+$purple-box-shadow: 0 0 32px 0 rgba(99, 60, 255, 0.25);
 
 // font vars
 
@@ -28,7 +30,7 @@ $container-width: 1352px;
 $button-padding-inline: 27px;
 $button-padding-block: 11px;
 $button-text-color: #{$white};
-$button-border-radius: 8px;
+$button-border-radius: .5rem;
 
 // phone
 
@@ -36,3 +38,6 @@ $phone-upper-shape-height: 1rem;
 $phone-upper-shape-width: 50%;
 $phone-upper-radius-width: 30px;
 $phone-lower-shape-width: calc($phone-upper-shape-width - (20px));
+
+//input
+$input-padding-inline: 1rem;

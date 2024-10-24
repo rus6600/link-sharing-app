@@ -1,27 +1,17 @@
-import { action, autorun, computed, makeObservable, observable } from 'mobx'
+import { AuthStore } from './AuthStore'
 import { createContext } from 'react'
+import { autorun } from 'mobx'
 
-class Store {
+export class RootStore {
+    authStore
     constructor() {
-        makeObservable(this, {
-            // count: observable,
-            // dec: action,
-            // double: computed,
-            // posts: observable,
-            // loading: observable,
-            // setPosts: action,
-        })
+        this.authStore = new AuthStore(this)
     }
-
-    count = 0
-    posts = []
-    loading = false
-    asyncData = ''
 }
 
-export const counterStore = new Store()
-export const PostStoreContext = createContext(counterStore)
+export const rootStore = new RootStore()
+export const RootStoreContext = createContext(rootStore)
 
 autorun(() => {
-    console.log(counterStore.count)
+    // console.log(rootStore)
 })

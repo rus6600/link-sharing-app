@@ -5,6 +5,13 @@
     line-height: 150%;
 }
 
+.typography-link {
+    color: $purple-600;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 .typography-fz-sm {
     font-size: 12px;
 }

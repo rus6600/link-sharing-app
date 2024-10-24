@@ -3,6 +3,10 @@
 
 .button-primary {
     @include button;
+    &:hover {
+        background-color: $purple-hover;
+        box-shadow: $purple-box-shadow
+    }
 }
 
 .button-icon {
