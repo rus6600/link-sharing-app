@@ -7,10 +7,16 @@ export const Typography = ({
     children,
     fontSize = 'md',
     textAlign = 'center',
-    fontWeight,
+    fontWeight = '400',
     color = 'black',
     marginBlock,
+    onClick,
+    className,
 }: TypographyProps) => {
-    const className = `typography ${textAlign ? `typography-align-${textAlign}` : ''} ${color ? `typography-clr-${color}` : ''} ${fontSize ? `typography-fz-${fontSize}` : ''} ${marginBlock ? `typography-m-${marginBlock}` : ''} ${fontWeight ? `typography-fw-${fontWeight}` : ''}`
-    return createElement(variant, { className }, children)
+    const dynamicClassName = `${className ? className : ''} typography ${textAlign ? `typography-align-${textAlign}` : ''} ${color ? `typography-clr-${color}` : ''} ${fontSize ? `typography-fz-${fontSize}` : ''} ${marginBlock ? `typography-m-${marginBlock}` : ''} ${fontWeight ? `typography-fw-${fontWeight}` : ''}`
+    return createElement(
+        variant,
+        { className: dynamicClassName, onClick },
+        children
+    )
 }

@@ -2,36 +2,130 @@
 @import '.././mixins';
 
 .customize-links {
-    @include flexbox($direction: column);
+    display: flex;
+    flex-direction: column;
     padding: 40px;
+    max-height: 100%;
+    //flex-grow: 1;
+    gap: 24px;
+    //max-height: min(100%, 900px);
     border-radius: 12px;
+    height: 100%;
     background-color: $white;
-
-    & > *:nth-child(2) {
-        margin-top: 8px;
+    &__header {
+        @include flexbox($direction: column);
     }
 
-    & > *:nth-child(3) {
-        margin-top: 40px;
+    &__list {
+        @include flexbox($direction: column, $gap: 24px);
+        overflow-y: scroll;
+        flex-grow: 0;
+        flex-shrink: 1;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        & {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        & > *:last-child {
+            margin-left: auto;
+        }
     }
 
+    &__getstarted {
+        @include flexbox($direction: column, $alignItems: center);
+        margin: 40px auto 0 auto;
+        padding-block: 43.5px;
+        border-radius: 12px;
+        background-color: $grey-300;
+        flex-grow: 0;
+        flex-shrink: 1;
+        h2 {
+            margin-top: 40px;
+        }
+        p {
+            max-width: 69%;
+        }
+
+        svg {
+            margin: 62.5px auto 0 auto;
+        }
+    }
+}
+
+.link-wrapper {
+    @include flexbox($direction: column);
+    padding: 20px;
+    background-color: $grey-300;
+    border-radius: 12px;
+
+    &__title {
+        @include flexbox($gap: 8px, $alignItems: center);
+
+        & > *:last-child {
+            margin-left: auto;
+        }
+
+        &_grab {
+            position: relative;
+            height: 6px;
+            width: 12px;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            &:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                height: 1px;
+                width: 100%;
+                background-color: $grey-600;
+            }
+            &:after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                height: 1px;
+                width: 100%;
+                background-color: $grey-600;
+            }
+        }
+
+        &_btn {
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.link {
+    @include flexbox(
+        $direction: column,
+        $justifyContent: space-between,
+        $gap: 12px
+    );
+    padding: 20px;
+    border-radius: 12px;
+    background-color: $grey-300;
+}
+
+.link__header {
+    @include flexbox($justifyContent: space-between);
+}
+
+.customize-links__save {
+    padding: 24px 40px;
+    @include flexbox();
+    & button {
+        margin-left: auto;
+    }
 }
 
 .customize-links__getstarted {
-    @include flexbox($direction: column, $alignItems: center);
-    margin: 40px auto 0 auto;
-    padding-block: 43.5px;
-    border-radius: 12px;
-    background-color: $grey-300;
-
-    h2 {
-        margin-top: 40px;
-    }
-    p {
-        max-width: 69%;
-    }
-
-    svg {
-        margin: 62.5px auto 0 auto;
-    }
 }

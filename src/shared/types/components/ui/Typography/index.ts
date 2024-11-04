@@ -35,4 +35,6 @@ export type TypographyProps = {
     fontWeight?: fontWeightUnion
     textAlign?: textAlignUnion
     marginBlock?: merginBlockUnion
+    onClick?: () => void
+    className?: string
 }

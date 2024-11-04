@@ -1,10 +1,10 @@
 import { createAtom } from 'mobx'
-import { QueryClient, QueryObserver } from '@tanstack/react-query'
-
-import type {
+import {
+    QueryClient,
     QueryKey,
+    QueryObserver,
     QueryObserverOptions,
-} from '@tanstack/query-core/src/types'
+} from '@tanstack/react-query'
 
 export class MobxQuery<
     TQueryFnData = unknown,
@@ -36,6 +36,10 @@ export class MobxQuery<
     query() {
         this.atom.reportObserved()
         return this.queryObserver.getOptimisticResult(this.defaultQueryOptions)
+    }
+
+    update() {
+        return this.queryClient
     }
 
     private unsubscribe() {}

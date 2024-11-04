@@ -8,11 +8,17 @@ import {
 export const Button = ({
     variant,
     children,
+    borderColor,
     icon,
+    endIcon,
+    className,
     ...rest
 }: ButtonPropsType) => {
     const baseButton = (
-        <button className={`button button-${variant}`} {...rest}>
+        <button
+            className={`${className} button button-${variant} ${borderColor ? `borderColor-${borderColor}` : ''}`}
+            {...rest}
+        >
             {children}
         </button>
     )
@@ -24,11 +30,12 @@ export const Button = ({
     if (icon) {
         return (
             <button
-                className={`button button-icon button-${variant}`}
+                className={`${className} button button-icon button-${variant} ${borderColor ? `borderColor-${borderColor}` : ''}`}
                 {...rest}
             >
                 {icon}
                 {children}
+                {endIcon}
             </button>
         )
     }

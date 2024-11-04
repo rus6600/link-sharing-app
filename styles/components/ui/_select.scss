@@ -1,0 +1,9 @@
+@import '../../variables';
+@import '../../mixins';
+
+.link-content {
+    @include flexbox($alignItems: center, $gap: 12px);
+    //display: none;
+
+
+}

@@ -1,7 +1,7 @@
 import { QueryClient } from '@tanstack/react-query'
 
 import axios from 'axios'
-import { linkModel, userModel } from '../models'
+import { UserCreateType, UserType } from '../types/Entities'
 
 export const axiosInstance = axios.create({
     baseURL: 'http://localhost:3000',
@@ -24,19 +24,19 @@ axiosInstance.interceptors.request.use(
     }
 )
 
-export const signUp = (args: userModel) => {
+export const signUp = (args: UserCreateType) => {
     return axiosInstance.post('/auth/signup', args)
 }
 
-export const signIn = (args: userModel) => {
+export const signIn = (args: UserCreateType) => {
     return axiosInstance.post('/auth/signin', args)
 }
 
-export const getUsers = () => {
+export const getUserLinks = () => {
     return axiosInstance.get('/users')
 }
 
-export const addLinks = (args: linkModel) => {
+export const addLinks = (args: UserType['links']) => {
     return axiosInstance.post('/users/', args)
 }
 

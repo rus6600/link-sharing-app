@@ -30,6 +30,8 @@ export type BaseButtonType = {
 }
 
 export type ButtonPropsType = ComponentProps<'button'> & {
-    icon?: ReactElement
+    icon?: ReactNode
+    endIcon?: ReactElement
+    borderColor?: `grey-${number}`
     children: ReactNode
 } & (ButtonLinkType | BaseButtonType)

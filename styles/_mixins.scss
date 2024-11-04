@@ -44,15 +44,20 @@
     flex-grow: $grow;
 }
 
-@mixin button() {
-    color: #{$white};
-    background-color: #{$purple-600};
+@mixin button($bgColor: $purple-600, $borderColor: none, $fontColor: $white) {
+    color: #{$fontColor};
+    background-color: #{$bgColor};
     padding-block: #{$button-padding-block};
     padding-inline: #{$button-padding-inline};
     border: none;
     border-radius: #{#{$button-border-radius}};
     font-weight: 600;
     line-height: 150%;
+
+    @if $borderColor {
+        border: 1px solid $borderColor;
+    }
+
     &:hover {
         cursor: pointer;
     }

@@ -1,0 +1,106 @@
+@import '../variables';
+@import '../mixins';
+
+.layout-preview {
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background-color: $white;
+
+    &__phone {
+        position: relative;
+        align-self: center;
+        display: grid;
+        place-items: center;
+        max-height: 100%;
+
+        &_outer {
+            z-index: 1;
+        }
+
+        &_inner {
+            z-index: 2;
+        }
+
+        & > * {
+            grid-area: 1/1;
+        }
+
+        & svg {
+            max-height: fit-content;
+        }
+    }
+}
+
+.layout-preview__phone_content {
+    position: absolute;
+    top: 63.5px;
+    left: 50%;
+    @include flexbox($direction: column, $alignItems: center);
+    background-color: $white;
+    transform: translateX(-50%);
+    z-index: 3;
+    width: 80%;
+    &_avatar {
+        height: 96px;
+        width: 96px;
+        margin-bottom: 25px;
+        border-radius: 50%;
+        background-color: $skeleton;
+    }
+    &_placeholder {
+        $width: 160px;
+        $height: 16px;
+        width: $width;
+        height: $height;
+        margin-bottom: 13px;
+        border-radius: 104px;
+        background-color: $skeleton;
+
+        &_small {
+            width: calc($width/2);
+            height: calc($height/2);
+            margin-bottom: 56px;
+        }
+    }
+    &_links {
+        @include flexbox($direction: column, $alignItems: center, $gap: 20px);
+        width: 100%;
+    }
+    &_link {
+        width: 100%;
+        height: 44px;
+        background-color: $skeleton;
+        text-transform: capitalize;
+
+        & > *:last-child {
+            margin-left: auto;
+        }
+
+
+        &_github {
+            background-color: $black;
+        }
+        &_youtube {
+            background-color: $youtube-bg;
+        }
+
+        &_linkedin {
+            background-color: $linkedin-bg;
+        }
+        &_facebook {
+            background-color: $facebook-bg;
+        }
+        &_frontendmentor {
+            background-color: $frontendmentor-bg;
+        }
+    }
+}
+
+.phone__links {
+    @include flexbox($direction: column);
+}
+
+.skeleton {
+    @include skeleton-animation;
+}

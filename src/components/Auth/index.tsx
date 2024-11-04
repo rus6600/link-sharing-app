@@ -9,7 +9,7 @@ import { SignUp } from './SignUp'
 import '@style/_auth.scss'
 import '@style/_header.scss'
 import { Modal } from '../ui/Modal'
-import { Button, Typography } from '../ui'
+import { Button } from '../ui'
 
 export const WithAuth: React.FC<{ children: React.ReactNode }> = observer(
     ({ children }) => {
@@ -49,9 +49,9 @@ export const WithAuth: React.FC<{ children: React.ReactNode }> = observer(
                 <Modal onClose={() => modalRef.current?.close()} ref={modalRef}>
                     {authStore.showSignInForm ? (
                         <>
-                            <Typography marginBlock={'16'}>
-                                User not found :(
-                            </Typography>
+                            {/*<Typography marginBlock={'16'}>*/}
+                            {/*    User not found :(*/}
+                            {/*</Typography>*/}
                             <Button
                                 variant={'primary'}
                                 onClick={handleOnSignInError}

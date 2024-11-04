@@ -1,20 +1,14 @@
-import { Avatar } from './Avatar'
-import { Placeholder } from './Placeholder'
-import { Link } from './Link'
+import { PhoneInner } from './PhoneInner'
+import { PhoneOuter } from './PhoneOuter'
 
-export const Phone: React.FC = () => {
+export const Phone: React.FC<{ children?: React.ReactNode }> = ({
+    children,
+}) => {
     return (
-        <div className="phone">
-            <div className="phone_upper" />
-            <div className="phone_lower" />
-            <Avatar />
-            <Placeholder />
-            <Placeholder small />
-            <Link></Link>
-            <Link></Link>
-            <Link></Link>
-            <Link></Link>
-            <Link></Link>
+        <div className="layout-preview__phone">
+            <PhoneInner></PhoneInner>
+            <PhoneOuter></PhoneOuter>
+            {children}
         </div>
     )
 }

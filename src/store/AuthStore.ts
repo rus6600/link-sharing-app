@@ -1,31 +1,28 @@
 import { makeAutoObservable } from 'mobx'
 
-import { queryClient, signUp, getUsers, signIn } from '../shared/lib/api'
+import { queryClient, signUp, signIn } from '../shared/lib/api'
 import { MobxMutation } from '../shared/lib/mobxMutation'
-import { MobxQuery } from '../shared/lib/mobxQuery'
 import { AxiosError, AxiosResponse } from 'axios'
-import { userModel } from '../shared/models'
+import { RootStore } from './index'
+import { UserCreateType, UserType } from '../shared/types/Entities'
 
 export class AuthStore {
     rootStore
     private signInFormShown = true
     private isAuthenticated = false
-    constructor(rootStore: unknown) {
+    constructor(rootStore: RootStore) {
         this.rootStore = rootStore
         makeAutoObservable(this, {})
     }
-    postsQuery = new MobxQuery(
-        () => ({
-            queryKey: ['users'],
-            queryFn: getUsers,
-        }),
-        queryClient
-    )
 
     signUpMutation = new MobxMutation<
-        AxiosResponse<{ accessToken: string; refreshToken: string }>,
+        AxiosResponse<{
+            accessToken: string
+            refreshToken: string
+            links: UserType['links']
+        }>,
         AxiosError<{ message: string }>,
-        userModel,
+        UserCreateType,
         Record<number, string>
     >(
         () => ({
@@ -37,36 +34,40 @@ export class AuthStore {
                     data.accessToken
                 )
                 this.isAuthenticated = true
+                queryClient.setQueryData(['queryUserLinks'], data.links)
                 // queryClient.invalidateQueries({ queryKey: ['posts'] })
             },
         }),
         queryClient
     )
     signInMutation = new MobxMutation<
-        AxiosResponse<{ accessToken: string; refreshToken: string }>,
+        AxiosResponse<{
+            accessToken: string
+            refreshToken: string
+            links: UserType['links']
+        }>,
         AxiosError<{ message: string }>,
-        userModel,
+        UserCreateType,
         Record<number, string>
     >(
         () => ({
             mutationFn: signIn,
             mutationKey: ['signIn'],
-            onSuccess: ({ data }) => {
+            onSuccess: async ({ data }) => {
                 localStorage.setItem(
                     'social-link-share-access-token',
                     data.accessToken
                 )
                 this.isAuthenticated = true
-                // queryClient.invalidateQueries({ queryKey: ['posts'] })
+                // queryClient.setQueryData(['queryUserLinks'], data.links)
+
+                await queryClient.invalidateQueries({
+                    queryKey: ['queryUserLinks'],
+                })
             },
         }),
         queryClient
     )
-
-    getUsers() {
-        // console.log(this.postsQuery.result())
-        return this.postsQuery.query()
-    }
 
     get signUpMutationStatus() {
         return this.signUpMutation
@@ -82,7 +83,7 @@ export class AuthStore {
     get signUpStatus() {
         return this.signUpMutation.status()
     }
-    async handleSubmit(formData: userModel) {
+    async handleSubmit(formData: UserCreateType) {
         if (this.signInFormShown) {
             return await this.signInMutation.mutate(formData)
         } else {

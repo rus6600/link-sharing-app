@@ -10,12 +10,16 @@ $grey-300: #fafafa;
 $white: #ffffff;
 $red: #ff3939;
 $skeleton: #eeeeee;
+$youtube-bg: #EE3939;
+$linkedin-bg: #2D68FF;
+$facebook-bg: #1877F2;
+$frontendmentor-bg: #c5e4e7;
 
 $purple-hover: #BEADFF;
 $base-color: #ddd;
 $shine-color: #e8e8e8;
 $animation-duration: 2.6s;
-$purple-box-shadow: 0 0 32px 0 rgba(99, 60, 255, 0.25);
+$purple-box-shadow: 0 0 16px 0 rgba(99, 60, 255, 0.25);
 
 // font vars
 
@@ -23,21 +27,18 @@ $font-family: 'Instrument Sans Bold', sans-serif;
 
 // entity vars
 
-$container-width: 1352px;
+$container-width: 1440px;
+$container-height: 984px;
 
 // button
 
 $button-padding-inline: 27px;
 $button-padding-block: 11px;
-$button-text-color: #{$white};
+$button-text-color: $white;
 $button-border-radius: .5rem;
 
-// phone
-
-$phone-upper-shape-height: 1rem;
-$phone-upper-shape-width: 50%;
-$phone-upper-radius-width: 30px;
-$phone-lower-shape-width: calc($phone-upper-shape-width - (20px));
+// layout-preview
+$phone-height: 70%;
 
 //authform
 
@@ -48,8 +49,11 @@ $form-width: 476px;
 $input-padding-inline: 1rem;
 
 
-//
+//Modal
 $modal-width: 20%;
 $modal-padding-inline: 2rem;
 $modal-padding-block: 3rem;
 $modal-border-radius: 12px;
+
+//Select
+$select-border-radius: .5rem;
