@@ -13,7 +13,10 @@ export const PlatformEnum: Record<PlatformUnionType, PlatformUnionType> = {
     frontendmentor: 'frontendmentor',
 } as const
 
-export const PlatformLinkRegexpEnum: Record<PlatformUnionType, string> = {
+export const PlatformLinkRegexpEnum: Record<
+    PlatformUnionType | 'default',
+    string
+> = {
     youtube:
         '^((?:https?:)?\\/\\/)?((?:www|m)\\.)?((?:youtube\\.com|youtu.be))(\\/(?:[\\w\\-]+\\?v=|embed\\/|v\\/)?)([\\w\\-]+)(\\S+)?$',
     linkedin:
@@ -21,7 +24,8 @@ export const PlatformLinkRegexpEnum: Record<PlatformUnionType, string> = {
     github: 'https?:\\/\\/github\\.com.*',
     facebook:
         '(?:(?:http|https):\\/\\/)?(?:www.)?facebook.com\\/(?:(?:\\w)*#!\\/)?(?:pages\\/)?(?:[?\\w\\-]*\\/)?(?:profile.php\\?id=(?=\\d.*))?([\\w\\-]*)?\n',
-    frontendmentor: '*',
+    frontendmentor: '(.*?)',
+    default: '(.*?)',
 }
 
 export type LinkType = {
@@ -33,7 +37,21 @@ export type LinkType = {
 export type UserType = {
     email: string
     password: string
-    links?: LinkType[] | []
+    firstName?: string
+    lastName?: string
+    profileImage?: string
+    contactEmail?: string
+    links?: LinkType[]
+}
+
+export type UserTypeKeys = keyof UserType
+
+export type UpdateUserType = Partial<UserType>
+
+export type UserMediaType = {
+    firstName: string
+    lastName: string
+    profileImage: string
 }
 
 export type UserCreateType = Partial<UserType>

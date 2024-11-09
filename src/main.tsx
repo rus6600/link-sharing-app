@@ -9,12 +9,12 @@ import { WithAuth } from './components/Auth'
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <RootStoreContext.Provider value={rootStore}>
-            <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
+            <RootStoreContext.Provider value={rootStore}>
                 <WithAuth>
                     <App />
                 </WithAuth>
-            </QueryClientProvider>
-        </RootStoreContext.Provider>
+            </RootStoreContext.Provider>
+        </QueryClientProvider>
     </StrictMode>
 )

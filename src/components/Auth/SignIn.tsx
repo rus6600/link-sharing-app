@@ -36,7 +36,7 @@ export const SignIn: React.FC<AuthFormComponentProps> = ({ onSwitch }) => {
                     errorText="Please check again"
                     icon={<LockIcon />}
                 />
-                <Button type={'submit'} variant={'primary'}>
+                <Button disabled={false} type={'submit'} variant={'primary'}>
                     Login
                 </Button>
                 <Typography>

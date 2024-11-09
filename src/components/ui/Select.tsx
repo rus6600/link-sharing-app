@@ -1,4 +1,4 @@
-import '@style/ui/_select.scss'
+import '../../../styles/components/ui/_select.scss'
 import React from 'react'
 import {
     ArrowIcon,
@@ -35,13 +35,16 @@ export const CustomSelect = <
     options,
     onChange,
     value,
+    id,
 }: Props<Option, IsMulti, Group>) => {
     return (
         <Select
+            name={id}
             isDisabled={false}
             menuPortalTarget={document.body}
             options={options}
             value={value}
+            required
             onChange={onChange}
             components={{
                 DropdownIndicator: () => <ArrowIcon />,

@@ -1,4 +1,5 @@
-import '@style/ui/_button.scss'
+import '../../../styles/components/ui/_button.scss'
+
 import {
     ButtonPropsType,
     ButtonVariantEnum,

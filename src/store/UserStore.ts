@@ -1,13 +1,17 @@
 import { makeAutoObservable } from 'mobx'
 import { MobxMutation } from '../shared/lib/mobxMutation'
 import { AxiosError, AxiosResponse } from 'axios'
-import { addLinks, getUserLinks, queryClient } from '../shared/lib/api'
+import {
+    addLinks,
+    addUserData,
+    getUserData,
+    queryClient,
+} from '../shared/lib/api'
 import { MobxQuery } from '../shared/lib/mobxQuery'
 import {
-    LinkType,
     PlatformEnum,
     PlatformUnionType,
-    UserType,
+    UpdateUserType,
 } from '../shared/types/Entities'
 import { DragEndEvent } from '@dnd-kit/core'
 import { SingleValue } from 'react-select'
@@ -17,6 +21,7 @@ import { OptionType } from '../components/ui'
 
 export class UserStore {
     rootStore
+    showProfileDetails: boolean = false
     constructor(rootStore: unknown) {
         this.rootStore = rootStore
         makeAutoObservable(this, {})
@@ -24,10 +29,10 @@ export class UserStore {
     linksMutation = new MobxMutation<
         AxiosResponse,
         AxiosError<{ message: string }>,
-        UserType['links'],
+        UpdateUserType,
         Record<number, string>
     >(
-        () => ({
+        {
             mutationFn: addLinks,
             mutationKey: ['mutateUserLinks'],
             onSuccess: async ({ data }) => {
@@ -36,126 +41,130 @@ export class UserStore {
                     queryKey: ['queryUserLinks'],
                 })
             },
-        }),
+        },
         queryClient
     )
-    linksQuery = new MobxQuery<
-        AxiosResponse<LinkType[] | null>,
+
+    userDataMutation = new MobxMutation<
+        AxiosResponse,
         AxiosError<{ message: string }>,
-        AxiosResponse<LinkType[] | null>,
+        UpdateUserType,
         Record<number, string>
     >(
-        () => ({
-            queryKey: ['queryUserLinks'],
-            queryFn: getUserLinks,
-        }),
+        {
+            mutationFn: addUserData,
+            mutationKey: ['mutateUserData'],
+            onSuccess: async () => {
+                await queryClient.invalidateQueries({
+                    queryKey: ['queryUserData'],
+                })
+            },
+        },
         queryClient
     )
 
-    async getLinks() {
-        return this.linksQuery.query()
+    userDataQuery = new MobxQuery<
+        AxiosResponse<UpdateUserType>,
+        AxiosError<{ message: string }>,
+        AxiosResponse<UpdateUserType>,
+        Record<number, string>
+    >(
+        {
+            queryKey: ['queryUserData'],
+            queryFn: getUserData,
+        },
+        queryClient
+    )
+
+    toggleShowEdit = () => {
+        this.showProfileDetails = !this.showProfileDetails
     }
 
-    setLinks = async (newLinks: UserType['links']) => {
-        return this.linksMutation.mutate(newLinks)
+    get profileDetails() {
+        return this.showProfileDetails
     }
 
-    updateLinks = async (data: LinkType[]) => {
-        this.linksQuery
+    setUserData = async (data: UpdateUserType) => {
+        return this.userDataQuery
             .update()
             .setQueryData<
-                AxiosResponse<LinkType[]>
-            >(['queryUserLinks'], (prev) => {
+                AxiosResponse<UpdateUserType>
+            >(['queryUserData'], (prev) => {
                 if (prev?.data) {
-                    return { ...prev, data }
+                    return { ...prev, data: { ...prev.data, ...data } }
                 }
             })
     }
 
-    removeLink = async (id: string) => {
-        const filteredLinks = this.linksQuery
+    removeUserLink = async (id: string) => {
+        const links = this.userDataQuery
             .query()
-            .data?.data?.filter((link) => link.id !== id)
-        if (filteredLinks) {
-            await this.updateLinks(filteredLinks)
+            ?.data?.data?.links?.filter((link) => link.id !== id)
+        if (links) {
+            await this.setUserData({ links })
         }
     }
 
-    saveLinks = async () => {
-        const data = this.linksQuery.query().data?.data
+    submitData = async (newData: UpdateUserType) => {
+        const data = await this.setUserData(newData)
         if (data) {
-            return this.linksMutation.mutate(data)
+             this.userDataMutation.mutate(data.data)
         }
     }
 
-    get userLinks() {
-        return this.linksQuery.query()
+    get userQuery() {
+        return this.userDataQuery.query()
     }
 
-    addTemplateLink = () => {
-        this.linksQuery
+    addNewLink = () => {
+        this.userDataQuery
             .update()
             .setQueryData<
-                AxiosResponse<LinkType[]>
-            >(['queryUserLinks'], (prev) => {
-                if (prev && prev.data.length < 5) {
+                AxiosResponse<UpdateUserType>
+            >(['queryUserData'], (prev) => {
+                if (prev) {
                     return {
                         ...prev,
-                        data: [
+                        data: {
                             ...prev.data,
-                            {
-                                id: crypto.randomUUID(),
-                                url: null,
-                                platform: null,
-                            },
-                        ],
+                            ...(prev.data.links && {
+                                links: [
+                                    ...prev.data.links,
+                                    {
+                                        id: crypto.randomUUID(),
+                                        url: null,
+                                        platform: null,
+                                    },
+                                ],
+                            }),
+                        },
                     }
                 }
             })
     }
 
     onSelectChange = (id: string, newValue: SingleValue<OptionType>) => {
-        this.linksQuery
+        this.userDataQuery
             .update()
             .setQueryData<
-                AxiosResponse<LinkType[]>
-            >(['queryUserLinks'], (prev) => {
-                if (prev?.data && newValue) {
-                    const data = prev.data.reduce((acc, cur) => {
-                        if (cur.id === id) {
-                            return [
-                                ...acc,
-                                { ...cur, platform: newValue.value },
-                            ]
-                        }
-                        return [...acc, cur]
-                    }, [] as LinkType[])
-                    return { ...prev, data }
-                }
-            })
-    }
-
-    onInputChange = (id: string, url: string) => {
-        this.linksQuery
-            .update()
-            .setQueryData<
-                AxiosResponse<LinkType[]>
-            >(['queryUserLinks'], (prev) => {
-                if (prev?.data) {
-                    const data = prev.data.reduce((acc, cur) => {
-                        if (cur.id === id) {
-                            return [...acc, { ...cur, url }]
-                        }
-                        return [...acc, cur]
-                    }, [] as LinkType[])
-                    return { ...prev, data }
+                AxiosResponse<UpdateUserType>
+            >(['queryUserData'], (prev) => {
+                if (prev && prev.data && prev.data.links && newValue) {
+                    prev.data.links = prev.data.links.map((link) => {
+                        if (link.id === id)
+                            return { ...link, platform: newValue.value }
+                        return link
+                    })
+                    return prev
                 }
             })
     }
 
     get selectOptions() {
         const selectedValues = new Set(
-            this.linksQuery.query().data?.data?.map(({ platform }) => platform)
+            this.userDataQuery
+                .query()
+                ?.data?.data?.links?.map(({ platform }) => platform)
         )
 
         return getKeys(PlatformEnum).reduce<PlatformUnionType[] | []>(
@@ -169,22 +178,13 @@ export class UserStore {
         )
     }
 
-    handleDragEnd = ({ active, over }: DragEndEvent) => {
-        const data = this.linksQuery.query().data?.data
+    handleDragEnd = async ({ active, over }: DragEndEvent) => {
+        const data = this.userDataQuery.query()?.data?.data?.links
         if (data && over && active.id !== over.id) {
             const oldIndex = data.findIndex((item) => item.id === active.id)
             const newIndex = data.findIndex((item) => item.id === over.id)
-            const newData = arrayMove(data, oldIndex, newIndex)
-            console.log(newData)
-            this.linksQuery
-                .update()
-                .setQueryData<
-                    AxiosResponse<LinkType[]>
-                >(['queryUserLinks'], (prev) => {
-                    if (prev?.data) {
-                        return { ...prev, data: newData }
-                    }
-                })
+            const links = arrayMove(data, oldIndex, newIndex)
+            await this.setUserData({ links })
         }
     }
 }

@@ -5,9 +5,9 @@ import { Logo } from '../Header/Logo'
 import { RootStoreContext } from '../../store'
 import { SignIn } from './SignIn'
 import { SignUp } from './SignUp'
+import '../../../styles/components/_auth.scss'
+import '../../../styles/components/_header.scss'
 
-import '@style/_auth.scss'
-import '@style/_header.scss'
 import { Modal } from '../ui/Modal'
 import { Button } from '../ui'
 
@@ -34,6 +34,7 @@ export const WithAuth: React.FC<{ children: React.ReactNode }> = observer(
                 modalRef?.current?.showModal()
             })
         }
+        console.log(authStore.signUpStatus)
         return (
             <section className={'auth-bg'}>
                 <div className="auth-wrapper">
@@ -60,7 +61,8 @@ export const WithAuth: React.FC<{ children: React.ReactNode }> = observer(
                             </Button>
                         </>
                     ) : (
-                        authStore.signUpStatus?.error?.response?.data.message
+                        <></>
+                        // authStore.signUpStatus?.error?.response?.data.message
                     )}
                 </Modal>
             </section>

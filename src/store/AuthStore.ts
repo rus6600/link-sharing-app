@@ -25,7 +25,7 @@ export class AuthStore {
         UserCreateType,
         Record<number, string>
     >(
-        () => ({
+        {
             mutationFn: signUp,
             mutationKey: ['signUp'],
             onSuccess: ({ data }) => {
@@ -35,9 +35,8 @@ export class AuthStore {
                 )
                 this.isAuthenticated = true
                 queryClient.setQueryData(['queryUserLinks'], data.links)
-                // queryClient.invalidateQueries({ queryKey: ['posts'] })
             },
-        }),
+        },
         queryClient
     )
     signInMutation = new MobxMutation<
@@ -50,7 +49,7 @@ export class AuthStore {
         UserCreateType,
         Record<number, string>
     >(
-        () => ({
+        {
             mutationFn: signIn,
             mutationKey: ['signIn'],
             onSuccess: async ({ data }) => {
@@ -62,10 +61,10 @@ export class AuthStore {
                 // queryClient.setQueryData(['queryUserLinks'], data.links)
 
                 await queryClient.invalidateQueries({
-                    queryKey: ['queryUserLinks'],
+                    queryKey: ['queryUserData'],
                 })
             },
-        }),
+        },
         queryClient
     )
 
@@ -81,7 +80,8 @@ export class AuthStore {
         return this.signInFormShown
     }
     get signUpStatus() {
-        return this.signUpMutation.status()
+        // return this.signUpMutation.status()
+        return this.signUpMutation.status
     }
     async handleSubmit(formData: UserCreateType) {
         if (this.signInFormShown) {
@@ -92,8 +92,5 @@ export class AuthStore {
     }
     toggleForm = () => {
         this.signInFormShown = !this.signInFormShown
-    }
-    resetForm() {
-        this.signUpMutation.reset()
     }
 }

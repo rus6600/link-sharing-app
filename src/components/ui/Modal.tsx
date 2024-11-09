@@ -1,4 +1,5 @@
-import '@style/ui/_modal.scss'
+import '../../../styles/components/ui/_modal.scss'
+
 import { ModalType } from '../../shared/types/components/ui/ModalType'
 import { forwardRef } from 'react'
 import { Typography } from './Typography'

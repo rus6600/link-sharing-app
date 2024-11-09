@@ -1,4 +1,5 @@
 @import '../../variables';
+@import '../../mixins';
 
 .input-container {
     position: relative;
@@ -10,12 +11,26 @@
     border-radius: $button-border-radius;
 }
 
-.input-container svg {
-}
-
 .input-container:has(.input:not(:placeholder-shown)):has(:focus) {
     border-color: $purple-600;
     box-shadow: $purple-box-shadow;
+}
+
+.input-wrapper {
+    @include flexbox($direction: column);
+
+    &__row {
+        @include flexbox($direction: row, $alignItems: center);
+
+        & .input-container {
+            flex-basis: 100%;
+        }
+    }
+
+    & label {
+        font-size: 1rem;
+        color: $grey-600;
+    }
 }
 
 .input-wrapper:has(.input:user-invalid) {

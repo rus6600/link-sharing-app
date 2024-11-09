@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 
-import '@style/_customize-links.scss'
+import '../../../styles/components/_customize-links.scss'
 import { Links } from './Links'
 import { Header } from './Header'
 

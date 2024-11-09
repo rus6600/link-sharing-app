@@ -10,18 +10,14 @@ import { observer } from 'mobx-react-lite'
 import { RootStoreContext } from '../../store'
 import { GetStarted } from '../Icons'
 import { Button, Typography } from '../ui'
+import { PlatformUnionType } from '../../shared/types/Entities'
 
 export const Links = observer(() => {
     const {
-        userStore: {
-            handleDragEnd,
-            saveLinks,
-            userLinks: { data, isLoading },
-        },
+        userStore: { handleDragEnd, userQuery, submitData },
     } = useContext(RootStoreContext)
-
-    if (isLoading) return <div>burr</div>
-    if (!data?.data?.length) {
+    if (userQuery?.isLoading) return <div>burr</div>
+    if (!userQuery?.data?.data?.links?.length) {
         return (
             <div className="customize-links__getstarted">
                 <GetStarted />
@@ -36,26 +32,44 @@ export const Links = observer(() => {
             </div>
         )
     }
-    const handleSubmit = async (e: React.FormEvent) => {
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        saveLinks()
+        const formProps = Object.fromEntries(new FormData(e.currentTarget))
+        const links = userQuery.data?.data?.links?.map(({ id }) => {
+            return {
+                id,
+                url: formProps[`${id}__input`] as string,
+                platform: formProps[`${id}__select`] as PlatformUnionType,
+            }
+        })
+        submitData({ links })
     }
 
     return (
-        <form onSubmit={handleSubmit} className={'customize-links__list'}>
-            <DndContext
-                modifiers={[restrictToParentElement, restrictToVerticalAxis]}
-                onDragEnd={handleDragEnd}
+        <>
+            <form
+                id={'linksform'}
+                onSubmit={handleSubmit}
+                className={'customize-links__list'}
             >
-                <SortableContext items={data.data}>
-                    {data.data.map((item, id) => (
-                        <Link key={item.id} orderId={id} {...item} />
-                    ))}
-                </SortableContext>
-            </DndContext>
-            <Button type={'submit'} variant={'primary'}>
+                <DndContext
+                    modifiers={[
+                        restrictToParentElement,
+                        restrictToVerticalAxis,
+                    ]}
+                    onDragEnd={handleDragEnd}
+                >
+                    <SortableContext items={userQuery.data.data.links}>
+                        {userQuery.data.data.links.map((item, id) => (
+                            <Link key={item.id} orderId={id} {...item} />
+                        ))}
+                    </SortableContext>
+                </DndContext>
+            </form>
+            <Button form={'linksform'} type={'submit'} variant={'primary'}>
                 Save
             </Button>
-        </form>
+        </>
     )
 })

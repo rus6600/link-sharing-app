@@ -1,26 +1,40 @@
-import '@style/ui/_textfield.scss'
-import { LinksIcon } from '../Icons'
 import React from 'react'
-import {
-    PlatformLinkRegexpEnum,
-    PlatformUnionType,
-} from '../../shared/types/Entities'
 
-export const TextField: React.FC<{
-    platform: PlatformUnionType
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-    defaultValue?: string
-}> = ({ platform, onChange, defaultValue }) => {
+import '../../../styles/components/ui/_textfield.scss'
+
+interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    icon?: React.ReactElement
+}
+
+export const TextField: React.FC<TextFieldProps> = ({
+    onChange,
+    defaultValue,
+    icon,
+    ...rest
+}) => {
+    if (icon) {
+        return (
+            <div className="text-field">
+                {icon}
+                <input
+                    required
+                    defaultValue={defaultValue}
+                    onChange={onChange}
+                    type={'text'}
+                    {...rest}
+                />
+            </div>
+        )
+    }
+
     return (
-        <div className="text-field">
-            <LinksIcon />
-            <input
-                required
-                defaultValue={defaultValue}
-                pattern={PlatformLinkRegexpEnum[platform]}
-                onChange={onChange}
-                type={'text'}
-            ></input>
-        </div>
+        <input
+            className="text-field"
+            required
+            defaultValue={defaultValue}
+            onChange={onChange}
+            type={'text'}
+            {...rest}
+        ></input>
     )
 }

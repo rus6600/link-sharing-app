@@ -1,16 +1,15 @@
-import React, { useContext, useRef } from 'react'
+import React, {  useRef } from 'react'
 import { Button, Input, Typography } from '../ui'
 
 import { LetterIcon, LockIcon } from '../Icons'
 import { AuthFormComponentProps } from '../../shared/types/components/Auth'
 import { InputRef } from '../../shared/types/components/ui/InputType'
 import { checkPasswordMatch } from '../../shared/utils'
-import { RootStoreContext } from '../../store'
 
 export const SignUp: React.FC<AuthFormComponentProps> = ({ onSwitch }) => {
-    const {
-        authStore: { signUpStatus },
-    } = useContext(RootStoreContext)
+    // const {
+    //     authStore: { signUpStatus },
+    // } = useContext(RootStoreContext)
     const passwordRef = useRef<InputRef>(null)
     const confirmPasswordRef = useRef<InputRef>(null)
     return (
@@ -26,7 +25,7 @@ export const SignUp: React.FC<AuthFormComponentProps> = ({ onSwitch }) => {
             <Typography textAlign={'left'} color={'grey-600'}>
                 Let’s get you started sharing your links!
             </Typography>
-            <fieldset disabled={signUpStatus.isLoading} className="fieldset">
+            <fieldset  className="fieldset">
                 <Input
                     required
                     name="email"

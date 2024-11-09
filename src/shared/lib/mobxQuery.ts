@@ -1,5 +1,6 @@
 import { createAtom } from 'mobx'
 import {
+    DefaultedQueryObserverOptions,
     QueryClient,
     QueryKey,
     QueryObserver,
@@ -13,17 +14,27 @@ export class MobxQuery<
     TQueryData = TQueryFnData,
     TQueryKey extends QueryKey = QueryKey,
 > {
+    readonly defaultOptions: DefaultedQueryObserverOptions<
+        TQueryFnData,
+        TError,
+        TData,
+        TQueryData,
+        TQueryKey
+    >
+    private observer?: QueryObserver<
+        TQueryFnData,
+        TError,
+        TData,
+        TQueryData,
+        TQueryKey
+    >
     private atom = createAtom(
-        'AuthQuery',
+        'query',
         () => this.startTracking(),
         () => this.stopTracking()
     )
-    private queryObserver = new QueryObserver(
-        this.queryClient,
-        this.defaultQueryOptions
-    )
     constructor(
-        private getOptions: () => QueryObserverOptions<
+        options: QueryObserverOptions<
             TQueryFnData,
             TError,
             TData,
@@ -31,11 +42,16 @@ export class MobxQuery<
             TQueryKey
         >,
         private queryClient: QueryClient
-    ) {}
+    ) {
+        const defaultOptions =
+            queryClient.defaultQueryOptions(options)
+        this.defaultOptions = defaultOptions
+        this.observer = new QueryObserver(this.queryClient, defaultOptions)
+    }
 
     query() {
         this.atom.reportObserved()
-        return this.queryObserver.getOptimisticResult(this.defaultQueryOptions)
+        return this.observer?.getCurrentResult()
     }
 
     update() {
@@ -46,15 +62,14 @@ export class MobxQuery<
 
     private startTracking() {
         console.log('start tracking')
-        this.unsubscribe = this.queryObserver.subscribe(() => {
-            this.atom.reportChanged()
-        })
+        if (this.observer) {
+            this.unsubscribe = this.observer.subscribe(() => {
+                this.atom.reportChanged()
+            })
+        }
     }
     private stopTracking() {
         console.log('stopeed tracking')
         this.unsubscribe()
-    }
-    private get defaultQueryOptions() {
-        return this.queryClient.defaultQueryOptions(this.getOptions())
     }
 }

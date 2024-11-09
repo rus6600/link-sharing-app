@@ -1,0 +1,51 @@
+@import '../../variables';
+@import '../../mixins';
+
+.image-input {
+    @include flexbox($direction: column, $justifyContent: center);
+    position: relative;
+    width: min(100%, 193px);
+    aspect-ratio: 1/1;
+    flex-shrink: 1;
+    border-radius: 12px;
+    place-items: center;
+    background-color: $purple-300;
+    color: $purple-600;
+    font-weight: 600;
+
+    &:has(img) {
+        background-color: transparent;
+    }
+
+    & img {
+        position: absolute;
+        inset: 0;
+        align-self: center;
+        border-radius: 12px;
+        filter: brightness(50%);
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    & > *:nth-child(2) {
+        z-index: 9999;
+    }
+    & > *:nth-child(3) {
+        z-index: 9999;
+    }
+    & span {
+        z-index: 9999;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+    & input[type='file'] {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+        display: block;
+        width: 0;
+        height: 0;
+    }
+}

@@ -1,4 +1,4 @@
-import '@style/_layout-preview.scss'
+import '../../../styles/components/_layout-preview.scss'
 
 import { Phone } from './Phone'
 import { Content } from './Content'

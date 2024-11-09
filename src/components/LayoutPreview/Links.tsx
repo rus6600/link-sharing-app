@@ -15,9 +15,7 @@ import { PlatformUnionType } from '../../shared/types/Entities'
 
 export const Links = observer(() => {
     const {
-        userStore: {
-            userLinks: { data },
-        },
+        userStore: { userQuery },
     } = useContext(RootStoreContext)
 
     const IconEnum: Record<platformUnion, React.ReactNode> = {
@@ -31,9 +29,10 @@ export const Links = observer(() => {
     return (
         <div className="layout-preview__phone_content_links">
             {Array.from({ length: 5 }).map((_, i) => {
-                const platform = data?.data?.[i]?.platform
+                const platform = userQuery?.data?.data?.links?.[i]?.platform
                 return (
                     <Button
+                        key={platform}
                         variant={'icon'}
                         icon={IconEnum[platform as PlatformUnionType]}
                         endIcon={<ArrowRightIcon />}

@@ -1,10 +1,15 @@
-import { CustomSelect, IconEnum, TextField, Typography } from '../ui'
+import React, { useContext } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { LinkType, PlatformUnionType } from '../../shared/types/Entities'
-import React, { useContext } from 'react'
+
+import { CustomSelect, IconEnum, TextField, Typography } from '../ui'
+import {
+    LinkType,
+    PlatformLinkRegexpEnum,
+    PlatformUnionType,
+} from '../../shared/types/Entities'
 import { RootStoreContext } from '../../store'
-import { useDebounce } from '../../shared/utils'
+import { LinksIcon } from '../Icons'
 
 const SelectLabel = ({ platform }: { platform: PlatformUnionType }) => (
     <div className={'link-content'}>
@@ -20,11 +25,11 @@ export const Link: React.FC<LinkType & { orderId: number }> = ({
 }) => {
     const {
         userStore: {
-            removeLink,
             onSelectChange,
             selectOptions,
-            onInputChange,
-            userLinks,
+            // linksMutation,
+            removeUserLink,
+            userQuery,
         },
     } = useContext(RootStoreContext)
     const { attributes, listeners, setNodeRef, transform, transition } =
@@ -39,11 +44,9 @@ export const Link: React.FC<LinkType & { orderId: number }> = ({
         label: <SelectLabel platform={option} />,
     }))
 
-    const onChange = useDebounce<React.ChangeEvent<HTMLInputElement>>((e) => {
-        onInputChange(id, e.target.value)
-    }, 500)
-
-    const value = userLinks?.data?.data?.filter((link) => link.id === id)[0]
+    const value = userQuery?.data?.data?.links?.filter(
+        (link) => link.id === id
+    )[0]
     const selectValue =
         value && value.platform
             ? {
@@ -56,6 +59,7 @@ export const Link: React.FC<LinkType & { orderId: number }> = ({
         <fieldset
             id={id}
             ref={setNodeRef}
+            // disabled={linksMutation.status().isLoading}
             style={style}
             className={'link-wrapper'}
         >
@@ -70,38 +74,45 @@ export const Link: React.FC<LinkType & { orderId: number }> = ({
                 </Typography>
                 <Typography
                     className={'link-wrapper__title_btn'}
-                    onClick={() => removeLink(id)}
+                    onClick={() => removeUserLink(id)}
                     color={'grey-600'}
                 >
                     Remove
                 </Typography>
             </div>
-            <Typography
-                textAlign={'left'}
-                fontSize={'sm'}
-                color={'black'}
-                fontWeight={'400'}
-            >
-                Platform
-            </Typography>
-            <CustomSelect
-                value={selectValue}
-                options={options}
-                onChange={(newValue) => onSelectChange(id, newValue)}
-            />
-            <Typography
-                textAlign={'left'}
-                fontSize={'sm'}
-                color={'black'}
-                fontWeight={'400'}
-            >
-                Link
-            </Typography>
-            <TextField
-                defaultValue={textFieldValue}
-                platform={platform || 'frontendmentor'}
-                onChange={onChange}
-            />
+            <label htmlFor={`${id}__select`}>
+                <Typography
+                    textAlign={'left'}
+                    fontSize={'sm'}
+                    color={'black'}
+                    fontWeight={'400'}
+                >
+                    Platform
+                </Typography>
+                <CustomSelect
+                    id={`${id}__select`}
+                    value={selectValue}
+                    options={options}
+                    onChange={(newValue) => onSelectChange(id, newValue)}
+                />
+            </label>
+            <label htmlFor={`${id}__input`}>
+                <Typography
+                    textAlign={'left'}
+                    fontSize={'sm'}
+                    color={'black'}
+                    fontWeight={'400'}
+                >
+                    Link
+                </Typography>
+                <TextField
+                    name={`${id}__input`}
+                    id={`${id}__input`}
+                    icon={<LinksIcon />}
+                    defaultValue={textFieldValue}
+                    pattern={PlatformLinkRegexpEnum[platform || 'default']}
+                />
+            </label>
         </fieldset>
     )
 }

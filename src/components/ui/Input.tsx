@@ -1,13 +1,15 @@
 import { forwardRef, useId } from 'react'
-import '@style/ui/_input.scss'
+import '../../../styles/components/ui/_input.scss'
 
 import { InputRef, InputType } from '../../shared/types/components/ui/InputType'
 
 export const Input = forwardRef<InputRef, InputType>(
-    ({ icon, label, errorText, ...rest }, ref) => {
+    ({ icon, label, errorText, flexDirection, ...rest }, ref) => {
         const id = useId()
         return (
-            <div className="input-wrapper">
+            <div
+                className={`input-wrapper ${flexDirection ? `input-wrapper__${flexDirection}` : ''}`}
+            >
                 <label className="input-label" htmlFor={id}>
                     {label}
                 </label>

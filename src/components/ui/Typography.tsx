@@ -1,6 +1,6 @@
 import { TypographyProps } from '../../shared'
 import { createElement } from 'react'
-import '@style/ui/_typography.scss'
+import '../../../styles/components/ui/_typography.scss'
 
 export const Typography = ({
     variant = 'p',

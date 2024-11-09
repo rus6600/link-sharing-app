@@ -44,23 +44,38 @@
     &_avatar {
         height: 96px;
         width: 96px;
+        border-radius: 96px;
         margin-bottom: 25px;
-        border-radius: 50%;
         background-color: $skeleton;
+        border: 3px solid $purple-600;
+
+        & img {
+            height: 100%;
+            width: 100%;
+            border-radius: 96px;
+            object-fit: cover;
+            display: grid;
+            place-items: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
     }
     &_placeholder {
         $width: 160px;
         $height: 16px;
         width: $width;
-        height: $height;
         margin-bottom: 13px;
         border-radius: 104px;
-        background-color: $skeleton;
 
         &_small {
             width: calc($width/2);
             height: calc($height/2);
             margin-bottom: 56px;
+        }
+
+        & .skeleton {
+            height: $height;
+            background-color: $skeleton;
         }
     }
     &_links {
@@ -76,7 +91,6 @@
         & > *:last-child {
             margin-left: auto;
         }
-
 
         &_github {
             background-color: $black;

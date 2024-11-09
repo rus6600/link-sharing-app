@@ -61,6 +61,13 @@
     &:hover {
         cursor: pointer;
     }
+
+    &:disabled {
+       opacity: .25;
+       &:hover {
+           background-color: $bgColor;
+       }
+    }
 }
 
 @mixin background-gradient() {

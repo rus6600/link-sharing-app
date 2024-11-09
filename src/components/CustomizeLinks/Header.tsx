@@ -20,7 +20,7 @@ export const Header = observer(() => {
                 Add/edit/remove links below and then share all your profiles
                 with the world!
             </Typography>
-            <Button variant={'outlined'} onClick={userStore.addTemplateLink}>
+            <Button variant={'outlined'} onClick={userStore.addNewLink}>
                 + Add new link
             </Button>
         </div>

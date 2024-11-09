@@ -1,7 +1,7 @@
 import { QueryClient } from '@tanstack/react-query'
 
 import axios from 'axios'
-import { UserCreateType, UserType } from '../types/Entities'
+import { UpdateUserType, UserCreateType } from '../types/Entities'
 
 export const axiosInstance = axios.create({
     baseURL: 'http://localhost:3000',
@@ -32,12 +32,16 @@ export const signIn = (args: UserCreateType) => {
     return axiosInstance.post('/auth/signin', args)
 }
 
-export const getUserLinks = () => {
+export const getUserData = () => {
     return axiosInstance.get('/users')
 }
 
-export const addLinks = (args: UserType['links']) => {
+export const addLinks = (args: UpdateUserType) => {
     return axiosInstance.post('/users/', args)
+}
+
+export const addUserData = (args: UpdateUserType) => {
+    return axiosInstance.post('/users', args)
 }
 
 export const queryClient = new QueryClient({

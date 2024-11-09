@@ -1,0 +1,40 @@
+@import '.././variables';
+@import '.././mixins';
+
+.profile-details {
+    @include flexbox($direction: column);
+    background-color: $white;
+    padding: 40px;
+    height: 100%;
+    border-radius: 12px;
+
+    &__img {
+        @include flexbox($alignContent: center, $gap: 1rem);
+        border: none;
+        background-color: $grey-300;
+        padding: 20px;
+        border-radius: 12px;
+
+        & > *:first-child {
+            flex-basis: 30%;
+            flex-shrink: 0;
+        }
+    }
+
+    &__inputs {
+        @include flexbox($direction: column, $gap: 12px);
+        padding: 20px;
+        border: none;
+        background-color: $grey-300;
+        border-radius: 12px;
+
+        & > * label {
+            flex-basis: 30%;
+            flex-shrink: 0;
+        }
+
+        & .input-wrapper {
+            gap: 1rem;
+        }
+    }
+}

@@ -1,7 +1,8 @@
-import { createAtom } from 'mobx'
+import { observable, runInAction } from 'mobx'
 import {
     MutationObserver,
     MutationObserverOptions,
+    MutationObserverResult,
     QueryClient,
 } from '@tanstack/react-query'
 
@@ -11,48 +12,87 @@ export class MobxMutation<
     TVariables = void,
     TContext = unknown,
 > {
-    private atom = createAtom(
-        'AuthMutation',
-        () => this.startTracking(),
-        () => this.stopTracking()
-    )
-    private queryObserver = new MutationObserver(
-        this.queryClient,
-        this.defaultQueryOptions
-    )
+    private readonly reactMutationResult = observable(
+        {},
+        { deep: false }
+    ) as MutationObserverResult<TData, TError>
+    private observer?: MutationObserver<TData, TError, TVariables, TContext>
+    private unsubscribe?: () => void
+
     constructor(
-        private defaultOptions: () => MutationObserverOptions<
+        private defaultOptions: MutationObserverOptions<
             TData,
             TError,
             TVariables,
             TContext
-        >,
+        > = {},
         private queryClient: QueryClient
     ) {}
-    private get defaultQueryOptions() {
-        return this.queryClient.defaultMutationOptions(this.defaultOptions())
-    }
-    async mutate(formData: TVariables) {
-        this.atom.reportObserved()
-        await this.queryObserver.mutate(formData)
-    }
-    status() {
-        this.atom.reportObserved()
-        return this.queryObserver.getCurrentResult()
-    }
-    reset() {
-        this.atom.reportChanged()
-        this.queryObserver.reset()
-    }
-    private unsubscribe() {}
 
-    private startTracking() {
-        console.log('start mutation tracking')
-        this.unsubscribe = this.queryObserver.subscribe(() => {
-            this.atom.reportChanged()
-        })
+    get data() {
+        return this.reactMutationResult.data
     }
-    private stopTracking() {
-        this.unsubscribe()
+
+    get error() {
+        return this.reactMutationResult.error ?? null
+    }
+
+    get isError() {
+        return this.reactMutationResult.isError ?? false
+    }
+
+    get isIdle() {
+        return this.reactMutationResult.isIdle ?? true
+    }
+
+    get isLoading() {
+        return this.reactMutationResult.isLoading ?? false
+    }
+
+    get isSuccess() {
+        return this.reactMutationResult.isSuccess ?? false
+    }
+
+    get status() {
+        return this.reactMutationResult.status ?? 'idle'
+    }
+
+    mutate(
+        variables: TVariables,
+        options?: MutationObserverOptions<TData, TError, TVariables, TContext>
+    ): MutationObserverResult<TData, TError> {
+        this.mutateAsync(variables, options).catch(noop)
+        return this.reactMutationResult
+    }
+
+    async mutateAsync(
+        variables: TVariables,
+        options?: MutationObserverOptions<TData, TError, TVariables, TContext>
+    ): Promise<MutationObserverResult<TData, TError>> {
+        if (this.unsubscribe) {
+            this.unsubscribe?.()
+        }
+
+        this.observer = new MutationObserver(
+            this.queryClient,
+            this.defaultOptions
+        )
+        this.unsubscribe = this.observer.subscribe((result) =>
+            runInAction(() => Object.assign(this.reactMutationResult, result))
+        )
+
+        try {
+            await this.observer.mutate(variables, options)
+        } catch (e) {
+            console.log(e)
+        }
+        return this.reactMutationResult
+    }
+
+    dispose() {
+        this.unsubscribe?.()
     }
 }
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+function noop() {}
