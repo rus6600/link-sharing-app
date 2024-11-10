@@ -6,6 +6,7 @@ import { CustomSelect, IconEnum, TextField, Typography } from '../ui'
 import {
     LinkType,
     PlatformLinkRegexpEnum,
+    PlatformPlaceholderEnum,
     PlatformUnionType,
 } from '../../shared/types/Entities'
 import { RootStoreContext } from '../../store'
@@ -18,19 +19,11 @@ const SelectLabel = ({ platform }: { platform: PlatformUnionType }) => (
     </div>
 )
 
-export const Link: React.FC<LinkType & { orderId: number }> = ({
-    id,
-    orderId,
-    platform,
-}) => {
+export const Link: React.FC<
+    LinkType & { orderId: number; isLoading: boolean }
+> = ({ id, orderId, platform, isLoading }) => {
     const {
-        userStore: {
-            onSelectChange,
-            selectOptions,
-            // linksMutation,
-            removeUserLink,
-            userQuery,
-        },
+        userStore: { onSelectChange, selectOptions, removeUserLink, userQuery },
     } = useContext(RootStoreContext)
     const { attributes, listeners, setNodeRef, transform, transition } =
         useSortable({ id })
@@ -59,7 +52,7 @@ export const Link: React.FC<LinkType & { orderId: number }> = ({
         <fieldset
             id={id}
             ref={setNodeRef}
-            // disabled={linksMutation.status().isLoading}
+            disabled={isLoading}
             style={style}
             className={'link-wrapper'}
         >
@@ -90,6 +83,7 @@ export const Link: React.FC<LinkType & { orderId: number }> = ({
                     Platform
                 </Typography>
                 <CustomSelect
+                    isDisabled={isLoading}
                     id={`${id}__select`}
                     value={selectValue}
                     options={options}
@@ -109,6 +103,7 @@ export const Link: React.FC<LinkType & { orderId: number }> = ({
                     name={`${id}__input`}
                     id={`${id}__input`}
                     icon={<LinksIcon />}
+                    placeholder={PlatformPlaceholderEnum[platform || 'default']}
                     defaultValue={textFieldValue}
                     pattern={PlatformLinkRegexpEnum[platform || 'default']}
                 />

@@ -1,16 +1,17 @@
 @import '../../variables';
 
 .container {
+    $gap: 24px;
     display: grid;
     margin-inline: auto;
     width: min(100%, $container-width);
     height: 100vh;
     grid-template-rows: min-content min(100%, 834px);
     grid-template-columns: 1fr 1.5fr;
-    gap: 24px;
+    gap: $gap;
     & .header {
         grid-area: 1/1/2/3;
-        margin-top: 24px;
+        margin-top: $gap;
         height: min-content;
     }
 
@@ -20,5 +21,27 @@
 
     & .edit {
         grid-area: 2/2/3/3;
+    }
+
+    &__preview {
+        grid-template-columns: 1fr;
+        grid-template-rows: min-content 1fr;
+        row-gap: 106px;
+
+        .header {
+            position: relative;
+
+            &::before {
+                position: absolute;
+                content: '';
+                width: 300vw;
+                top: -24px;
+                transform: translateX(-50%);
+                height: 357px;
+                z-index: -1;
+                background-color: $purple-600;
+                border-radius: 32px;
+            }
+        }
     }
 }

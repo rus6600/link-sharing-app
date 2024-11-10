@@ -2,7 +2,6 @@ import '../../../styles/components/ui/_modal.scss'
 
 import { ModalType } from '../../shared/types/components/ui/ModalType'
 import { forwardRef } from 'react'
-import { Typography } from './Typography'
 
 export const Modal = forwardRef<HTMLDialogElement, ModalType>(
     ({ children, onClose }, ref) => {
@@ -13,8 +12,7 @@ export const Modal = forwardRef<HTMLDialogElement, ModalType>(
                         onClick={onClose}
                         className={'dialog__content_exit_btn'}
                     ></button>
-                    <Typography fontSize={'lg'}>Sorry...</Typography>
-                    <Typography> {children}</Typography>
+                    {children}
                 </div>
             </dialog>
         )

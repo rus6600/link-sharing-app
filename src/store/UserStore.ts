@@ -1,50 +1,27 @@
 import { makeAutoObservable } from 'mobx'
 import { MobxMutation } from '../shared/lib/mobxMutation'
 import { AxiosError, AxiosResponse } from 'axios'
-import {
-    addLinks,
-    addUserData,
-    getUserData,
-    queryClient,
-} from '../shared/lib/api'
+import { DragEndEvent } from '@dnd-kit/core'
+import { SingleValue } from 'react-select'
+import { arrayMove } from '@dnd-kit/sortable'
+
+import { addUserData, getUserData, queryClient } from '../shared/lib/api'
 import { MobxQuery } from '../shared/lib/mobxQuery'
 import {
     PlatformEnum,
     PlatformUnionType,
     UpdateUserType,
 } from '../shared/types/Entities'
-import { DragEndEvent } from '@dnd-kit/core'
-import { SingleValue } from 'react-select'
-import { arrayMove } from '@dnd-kit/sortable'
 import { getKeys } from '../shared/utils'
 import { OptionType } from '../components/ui'
+import { RootStore } from './index.ts'
 
 export class UserStore {
     rootStore
-    showProfileDetails: boolean = false
-    constructor(rootStore: unknown) {
+    constructor(rootStore: RootStore) {
         this.rootStore = rootStore
         makeAutoObservable(this, {})
     }
-    linksMutation = new MobxMutation<
-        AxiosResponse,
-        AxiosError<{ message: string }>,
-        UpdateUserType,
-        Record<number, string>
-    >(
-        {
-            mutationFn: addLinks,
-            mutationKey: ['mutateUserLinks'],
-            onSuccess: async ({ data }) => {
-                console.log(data)
-                await queryClient.invalidateQueries({
-                    queryKey: ['queryUserLinks'],
-                })
-            },
-        },
-        queryClient
-    )
-
     userDataMutation = new MobxMutation<
         AxiosResponse,
         AxiosError<{ message: string }>,
@@ -76,14 +53,6 @@ export class UserStore {
         queryClient
     )
 
-    toggleShowEdit = () => {
-        this.showProfileDetails = !this.showProfileDetails
-    }
-
-    get profileDetails() {
-        return this.showProfileDetails
-    }
-
     setUserData = async (data: UpdateUserType) => {
         return this.userDataQuery
             .update()
@@ -108,12 +77,16 @@ export class UserStore {
     submitData = async (newData: UpdateUserType) => {
         const data = await this.setUserData(newData)
         if (data) {
-             this.userDataMutation.mutate(data.data)
+            await this.userDataMutation.mutate(data.data)
         }
     }
 
     get userQuery() {
         return this.userDataQuery.query()
+    }
+
+    get linksLength() {
+        return this.userDataQuery.query().data?.data.links?.length || 0
     }
 
     addNewLink = () => {
@@ -127,20 +100,23 @@ export class UserStore {
                         ...prev,
                         data: {
                             ...prev.data,
-                            ...(prev.data.links && {
-                                links: [
-                                    ...prev.data.links,
-                                    {
-                                        id: crypto.randomUUID(),
-                                        url: null,
-                                        platform: null,
-                                    },
-                                ],
-                            }),
+                            ...(prev.data.links &&
+                                prev.data.links.length < 5 && {
+                                    links: [
+                                        ...prev.data.links,
+                                        {
+                                            id: crypto.randomUUID(),
+                                            url: null,
+                                            platform: null,
+                                        },
+                                    ],
+                                }),
                         },
                     }
                 }
             })
+        if (this.linksLength <= 4) {
+        }
     }
 
     onSelectChange = (id: string, newValue: SingleValue<OptionType>) => {

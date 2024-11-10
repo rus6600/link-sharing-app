@@ -1,35 +1,66 @@
+import { useContext } from 'react'
+import { observer } from 'mobx-react-lite'
+
 import { LinksIcon, UserIcon } from '../Icons'
 import '../../../styles/components/_header.scss'
 import { Logo } from './Logo'
 import { Button } from '../ui'
-import { useContext } from 'react'
 import { RootStoreContext } from '../../store'
-import { observer } from 'mobx-react-lite'
+import { pageEnum } from '../../shared/types/Entities'
 
 export const Header = observer(() => {
     const {
-        userStore: { toggleShowEdit, profileDetails },
+        uiStore: { currentPage, setCurrentPage },
     } = useContext(RootStoreContext)
     return (
         <header className="header">
-            <Logo />
-            <div className="header__switch">
-                <Button
-                    onClick={toggleShowEdit}
-                    variant={!profileDetails ? 'reverted' : 'transparent'}
-                    icon={<LinksIcon fill={'#633cff'} />}
-                >
-                    Links
-                </Button>
-                <Button
-                    onClick={toggleShowEdit}
-                    variant={profileDetails ? 'reverted' : 'transparent'}
-                    icon={<UserIcon fill="#737373" />}
-                >
-                    Profile Details
-                </Button>
-            </div>
-            <Button variant="outlined">Preview</Button>
+            {currentPage === pageEnum.preview ? (
+                <>
+                    <Button
+                        variant={'outlined'}
+                        onClick={() => setCurrentPage(pageEnum.links)}
+                    >
+                        Back to Editor
+                    </Button>
+                    <Button variant={'primary'}>Share Link</Button>
+                </>
+            ) : (
+                <>
+                    <Logo />
+                    <div className="header__switch">
+                        <Button
+                            onClick={() => setCurrentPage(pageEnum.links)}
+                            variant={
+                                currentPage === pageEnum.links
+                                    ? 'reverted'
+                                    : 'transparent'
+                            }
+                            icon={<LinksIcon fill={'#633cff'} />}
+                        >
+                            Links
+                        </Button>
+                        <Button
+                            onClick={() =>
+                                setCurrentPage(pageEnum.profileDetails)
+                            }
+                            variant={
+                                currentPage === pageEnum.profileDetails
+                                    ? 'reverted'
+                                    : 'transparent'
+                            }
+                            icon={<UserIcon fill="#737373" />}
+                        >
+                            Profile Details
+                        </Button>
+                    </div>
+                    <Button
+                        onClick={() => setCurrentPage(pageEnum.preview)}
+                        variant="outlined"
+                    >
+                        Preview
+                    </Button>
+                </>
+            )}
         </header>
     )
 })

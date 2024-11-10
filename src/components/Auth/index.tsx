@@ -7,21 +7,24 @@ import { SignIn } from './SignIn'
 import { SignUp } from './SignUp'
 import '../../../styles/components/_auth.scss'
 import '../../../styles/components/_header.scss'
-
 import { Modal } from '../ui/Modal'
-import { Button } from '../ui'
+import { Button, Typography } from '../ui'
+import { pageEnum } from '../../shared/types/Entities'
 
 export const WithAuth: React.FC<{ children: React.ReactNode }> = observer(
     ({ children }) => {
         const modalRef = useRef<HTMLDialogElement>(null)
-        const { authStore } = useContext(RootStoreContext)
+        const { authStore, uiStore } = useContext(RootStoreContext)
 
-        if (authStore.isUserAuthenticated) {
+        if (
+            uiStore.page !== pageEnum.signIn &&
+            uiStore.page !== pageEnum.signUp
+        ) {
             return children
         }
 
         const handleOnSignInError = () => {
-            authStore.toggleForm()
+            uiStore.setCurrentPage(pageEnum.signUp)
             modalRef.current?.close()
         }
         const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -34,25 +37,28 @@ export const WithAuth: React.FC<{ children: React.ReactNode }> = observer(
                 modalRef?.current?.showModal()
             })
         }
-        console.log(authStore.signUpStatus)
+        console.log(authStore.signInStatus)
         return (
             <section className={'auth-bg'}>
                 <div className="auth-wrapper">
                     <Logo />
                     <form onSubmit={handleSubmit} className="form">
-                        {authStore.showSignInForm ? (
-                            <SignIn onSwitch={authStore.toggleForm} />
+                        {uiStore.page === pageEnum.signIn ? (
+                            <SignIn />
                         ) : (
-                            <SignUp onSwitch={authStore.toggleForm} />
+                            <SignUp />
                         )}
                     </form>
                 </div>
                 <Modal onClose={() => modalRef.current?.close()} ref={modalRef}>
-                    {authStore.showSignInForm ? (
+                    {uiStore.page === pageEnum.signIn ? (
                         <>
-                            {/*<Typography marginBlock={'16'}>*/}
-                            {/*    User not found :(*/}
-                            {/*</Typography>*/}
+                            <Typography fontSize={'lg'}>
+                                {
+                                    authStore.signInStatus?.error?.response
+                                        ?.data?.message
+                                }
+                            </Typography>
                             <Button
                                 variant={'primary'}
                                 onClick={handleOnSignInError}
@@ -61,8 +67,12 @@ export const WithAuth: React.FC<{ children: React.ReactNode }> = observer(
                             </Button>
                         </>
                     ) : (
-                        <></>
-                        // authStore.signUpStatus?.error?.response?.data.message
+                        <Typography fontSize={'lg'}>
+                            {
+                                authStore.signUpStatus?.error?.response?.data
+                                    ?.message
+                            }
+                        </Typography>
                     )}
                 </Modal>
             </section>

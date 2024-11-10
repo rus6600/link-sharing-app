@@ -1,20 +1,22 @@
-import { CustomizeLinks } from '../CustomizeLinks'
 import { useContext } from 'react'
-import { RootStoreContext } from '../../store'
-import { ProfileDetails } from '../ProfileDetails'
 import { observer } from 'mobx-react-lite'
 
-export const Edit: React.FC = observer(() => {
+import { CustomizeLinks } from '../CustomizeLinks'
+import { RootStoreContext } from '../../store'
+import { ProfileDetails } from '../ProfileDetails'
+import { pageEnum } from '../../shared/types/Entities'
+
+export const Edit = observer(() => {
     const {
-        userStore: { profileDetails },
+        uiStore: { currentPage },
     } = useContext(RootStoreContext)
 
     return (
         <section className={'edit'}>
-            {profileDetails ? (
+            {currentPage === pageEnum.profileDetails ? (
                 <ProfileDetails />
             ) : (
-                <CustomizeLinks></CustomizeLinks>
+                <CustomizeLinks />
             )}
         </section>
     )

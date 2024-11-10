@@ -3,9 +3,13 @@
 
 .dialog {
     padding: 0;
-    width: min($modal-width,100%);
+    width: min($modal-width, 100%);
     border: 1px solid $grey-600;
     border-radius: $modal-border-radius;
+
+    & .typography {
+        margin-bottom: 1rem;
+    }
 }
 
 .dialog::backdrop {
@@ -17,10 +21,9 @@
     @include flexbox(
         $direction: column,
         $alignContent: space-between,
-        $justifyContent: space-between,
+        $justifyContent: space-between
     );
     padding: $modal-padding-block $modal-padding-inline;
-
     border: none;
     border-radius: $modal-border-radius;
 }

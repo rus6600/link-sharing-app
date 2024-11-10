@@ -30,6 +30,27 @@
             max-height: fit-content;
         }
     }
+    
+    
+    &__show {
+        width: min-content;
+        padding: 48px 56px;
+        border-radius: 24px;
+        justify-self: center;
+        height: min-content;
+        background-color: $white;
+        .layout-preview__phone_content {
+            display: flex;
+            width: min-content;
+            background-color: $white;
+
+            position: relative;
+            inset: 0;
+            transform: none;
+        }
+
+    }
+    
 }
 
 .layout-preview__phone_content {
@@ -60,24 +81,26 @@
             margin-right: auto;
         }
     }
-    &_placeholder {
-        $width: 160px;
-        $height: 16px;
-        width: $width;
+
+    & .typography {
         margin-bottom: 13px;
-        border-radius: 104px;
-
-        &_small {
-            width: calc($width/2);
-            height: calc($height/2);
-            margin-bottom: 56px;
-        }
-
-        & .skeleton {
-            height: $height;
-            background-color: $skeleton;
-        }
     }
+    & .typography.small {
+        margin-bottom: 56px;
+    }
+
+    & .typography.skeleton {
+        width: 160px;
+        height: 16px;
+        margin-bottom: 13px;
+        border-radius: 12px;
+    }
+    & .typography.skeleton.small {
+        width: 72px;
+        height: 8px;
+        margin-bottom: 56px;
+    }
+
     &_links {
         @include flexbox($direction: column, $alignItems: center, $gap: 20px);
         width: 100%;

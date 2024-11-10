@@ -4,12 +4,10 @@ import { queryClient, signUp, signIn } from '../shared/lib/api'
 import { MobxMutation } from '../shared/lib/mobxMutation'
 import { AxiosError, AxiosResponse } from 'axios'
 import { RootStore } from './index'
-import { UserCreateType, UserType } from '../shared/types/Entities'
+import { pageEnum, UserCreateType, UserType } from '../shared/types/Entities'
 
 export class AuthStore {
     rootStore
-    private signInFormShown = true
-    private isAuthenticated = false
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore
         makeAutoObservable(this, {})
@@ -28,13 +26,15 @@ export class AuthStore {
         {
             mutationFn: signUp,
             mutationKey: ['signUp'],
-            onSuccess: ({ data }) => {
+            onSuccess: async ({ data }) => {
                 localStorage.setItem(
                     'social-link-share-access-token',
                     data.accessToken
                 )
-                this.isAuthenticated = true
-                queryClient.setQueryData(['queryUserLinks'], data.links)
+                await queryClient.invalidateQueries({
+                    queryKey: ['queryUserData'],
+                })
+                this.rootStore.uiStore.setCurrentPage(pageEnum.links)
             },
         },
         queryClient
@@ -57,40 +57,26 @@ export class AuthStore {
                     'social-link-share-access-token',
                     data.accessToken
                 )
-                this.isAuthenticated = true
-                // queryClient.setQueryData(['queryUserLinks'], data.links)
-
                 await queryClient.invalidateQueries({
                     queryKey: ['queryUserData'],
                 })
+                this.rootStore.uiStore.setCurrentPage(pageEnum.links)
             },
         },
         queryClient
     )
 
-    get signUpMutationStatus() {
-        return this.signUpMutation
-    }
-
-    get isUserAuthenticated() {
-        return this.isAuthenticated
-    }
-
-    get showSignInForm() {
-        return this.signInFormShown
-    }
     get signUpStatus() {
-        // return this.signUpMutation.status()
-        return this.signUpMutation.status
+        return this.signUpMutation.status()
+    }
+    get signInStatus() {
+        return this.signInMutation.status()
     }
     async handleSubmit(formData: UserCreateType) {
-        if (this.signInFormShown) {
+        if (this.rootStore.uiStore.page === pageEnum.signIn) {
             return await this.signInMutation.mutate(formData)
         } else {
             return await this.signUpMutation.mutate(formData)
         }
-    }
-    toggleForm = () => {
-        this.signInFormShown = !this.signInFormShown
     }
 }

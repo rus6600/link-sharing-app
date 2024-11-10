@@ -2,10 +2,9 @@
 @import '../mixins';
 
 .header {
+    @include flexbox($alignContent: center, $justifyContent: space-between);
     width: 100%;
-    display: flex;
     padding: 1rem 1.5rem;
-    align-items: center;
     border-radius: 12px;
     background-color: #{$white};
 }

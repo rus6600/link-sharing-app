@@ -7,6 +7,7 @@ import {
     restrictToVerticalAxis,
 } from '@dnd-kit/modifiers'
 import { observer } from 'mobx-react-lite'
+
 import { RootStoreContext } from '../../store'
 import { GetStarted } from '../Icons'
 import { Button, Typography } from '../ui'
@@ -14,7 +15,7 @@ import { PlatformUnionType } from '../../shared/types/Entities'
 
 export const Links = observer(() => {
     const {
-        userStore: { handleDragEnd, userQuery, submitData },
+        userStore: { handleDragEnd, userQuery, submitData, userDataMutation },
     } = useContext(RootStoreContext)
     if (userQuery?.isLoading) return <div>burr</div>
     if (!userQuery?.data?.data?.links?.length) {
@@ -32,7 +33,6 @@ export const Links = observer(() => {
             </div>
         )
     }
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const formProps = Object.fromEntries(new FormData(e.currentTarget))
@@ -45,7 +45,6 @@ export const Links = observer(() => {
         })
         submitData({ links })
     }
-
     return (
         <>
             <form
@@ -62,14 +61,26 @@ export const Links = observer(() => {
                 >
                     <SortableContext items={userQuery.data.data.links}>
                         {userQuery.data.data.links.map((item, id) => (
-                            <Link key={item.id} orderId={id} {...item} />
+                            <Link
+                                key={item.id}
+                                orderId={id}
+                                isLoading={userDataMutation.status().isLoading}
+                                {...item}
+                            />
                         ))}
                     </SortableContext>
                 </DndContext>
             </form>
-            <Button form={'linksform'} type={'submit'} variant={'primary'}>
-                Save
-            </Button>
+            <div className={'customize-links__btn_container'}>
+                <Button
+                    disabled={userDataMutation.status().isLoading}
+                    form={'linksform'}
+                    type={'submit'}
+                    variant={'primary'}
+                >
+                    Save
+                </Button>
+            </div>
         </>
     )
 })

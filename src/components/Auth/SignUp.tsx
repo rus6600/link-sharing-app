@@ -1,15 +1,17 @@
-import React, {  useRef } from 'react'
-import { Button, Input, Typography } from '../ui'
+import { useContext, useRef } from 'react'
 
+import { Button, Input, Typography } from '../ui'
 import { LetterIcon, LockIcon } from '../Icons'
-import { AuthFormComponentProps } from '../../shared/types/components/Auth'
 import { InputRef } from '../../shared/types/components/ui/InputType'
 import { checkPasswordMatch } from '../../shared/utils'
+import { RootStoreContext } from '../../store'
 
-export const SignUp: React.FC<AuthFormComponentProps> = ({ onSwitch }) => {
-    // const {
-    //     authStore: { signUpStatus },
-    // } = useContext(RootStoreContext)
+export const SignUp = () => {
+    const {
+        authStore,
+        uiStore: { toggleCurrentAuthPage },
+    } = useContext(RootStoreContext)
+
     const passwordRef = useRef<InputRef>(null)
     const confirmPasswordRef = useRef<InputRef>(null)
     return (
@@ -25,7 +27,10 @@ export const SignUp: React.FC<AuthFormComponentProps> = ({ onSwitch }) => {
             <Typography textAlign={'left'} color={'grey-600'}>
                 Let’s get you started sharing your links!
             </Typography>
-            <fieldset  className="fieldset">
+            <fieldset
+                disabled={authStore.signUpStatus.isLoading}
+                className="fieldset"
+            >
                 <Input
                     required
                     name="email"
@@ -65,12 +70,19 @@ export const SignUp: React.FC<AuthFormComponentProps> = ({ onSwitch }) => {
                 >
                     Password must contain at least 8 characters
                 </Typography>
-                <Button type={'submit'} variant={'primary'}>
+                <Button
+                    disabled={authStore.signUpStatus.isLoading}
+                    type={'submit'}
+                    variant={'primary'}
+                >
                     Create new account
                 </Button>
                 <Typography color={'grey-600'}>
                     Already have an account?{' '}
-                    <span onClick={onSwitch} className={'typography-link'}>
+                    <span
+                        onClick={toggleCurrentAuthPage}
+                        className={'typography-link'}
+                    >
                         Login
                     </span>
                 </Typography>

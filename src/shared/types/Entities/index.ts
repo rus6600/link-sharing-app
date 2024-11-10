@@ -23,9 +23,21 @@ export const PlatformLinkRegexpEnum: Record<
         '^(http(s)?:\\/\\/)?([\\w]+\\.)?linkedin\\.com\\/(pub|in|profile)\n',
     github: 'https?:\\/\\/github\\.com.*',
     facebook:
-        '(?:(?:http|https):\\/\\/)?(?:www.)?facebook.com\\/(?:(?:\\w)*#!\\/)?(?:pages\\/)?(?:[?\\w\\-]*\\/)?(?:profile.php\\?id=(?=\\d.*))?([\\w\\-]*)?\n',
+        '(?:https?:\\/\\/)?(?:www\\.)?(mbasic.facebook|m\\.facebook|facebook|fb)\\.(com|me)\\/(?:(?:\\w\\.)*#!\\/)?(?:pages\\/)?(?:[\\w\\-\\.]*\\/)*([\\w\\-\\.]*)',
     frontendmentor: '(.*?)',
     default: '(.*?)',
+}
+
+export const PlatformPlaceholderEnum: Record<
+    PlatformUnionType | 'default',
+    string
+> = {
+    github: 'e.g. https://www.github.com/johnappleseed',
+    facebook: 'e.g. https://www.facebook.com/zuck',
+    youtube: 'e.g. https://www.youtube.com/watch?v=6ka00GpyxkM',
+    linkedin: 'e.g. https://www.linkedin.com/in/rus6600',
+    frontendmentor: 'e.g. https://www.frontendmentor.io/profile/rus6600',
+    default: 'Please choose platform',
 }
 
 export type LinkType = {
@@ -55,3 +67,18 @@ export type UserMediaType = {
 }
 
 export type UserCreateType = Partial<UserType>
+
+export type pageUnion =
+    | 'links'
+    | 'profileDetails'
+    | 'preview'
+    | 'signIn'
+    | 'signUp'
+
+export const pageEnum: Record<pageUnion, pageUnion> = {
+    links: 'links',
+    profileDetails: 'profileDetails',
+    preview: 'preview',
+    signIn: 'signIn',
+    signUp: 'signUp',
+} as const

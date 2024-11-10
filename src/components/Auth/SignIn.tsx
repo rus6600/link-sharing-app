@@ -1,9 +1,15 @@
-import React from 'react'
+import { useContext } from 'react'
+import { observer } from 'mobx-react-lite'
+
 import { Button, Input, Typography } from '../ui'
 import { LetterIcon, LockIcon } from '../Icons'
-import { AuthFormComponentProps } from '../../shared/types/components/Auth'
+import { RootStoreContext } from '../../store'
 
-export const SignIn: React.FC<AuthFormComponentProps> = ({ onSwitch }) => {
+export const SignIn = observer(() => {
+    const {
+        authStore,
+        uiStore: { toggleCurrentAuthPage },
+    } = useContext(RootStoreContext)
     return (
         <>
             <Typography
@@ -17,7 +23,10 @@ export const SignIn: React.FC<AuthFormComponentProps> = ({ onSwitch }) => {
             <Typography textAlign={'left'} color={'grey-600'}>
                 Add your details below to get back into the app
             </Typography>
-            <fieldset className="fieldset">
+            <fieldset
+                className="fieldset"
+                disabled={authStore.signInStatus.isLoading}
+            >
                 <Input
                     required
                     name="email"
@@ -36,16 +45,23 @@ export const SignIn: React.FC<AuthFormComponentProps> = ({ onSwitch }) => {
                     errorText="Please check again"
                     icon={<LockIcon />}
                 />
-                <Button disabled={false} type={'submit'} variant={'primary'}>
+                <Button
+                    disabled={authStore.signInStatus.isLoading}
+                    type={'submit'}
+                    variant={'primary'}
+                >
                     Login
                 </Button>
                 <Typography>
                     Don’t have an account?{' '}
-                    <span onClick={onSwitch} className={'typography-link'}>
+                    <span
+                        onClick={toggleCurrentAuthPage}
+                        className={'typography-link'}
+                    >
                         Create account
                     </span>
                 </Typography>
             </fieldset>
         </>
     )
-}
+})

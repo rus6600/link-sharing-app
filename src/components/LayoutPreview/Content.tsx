@@ -1,7 +1,8 @@
-import { Links } from './Links'
 import { useContext } from 'react'
-import { RootStoreContext } from '../../store'
 import { observer } from 'mobx-react-lite'
+
+import { Links } from './Links'
+import { RootStoreContext } from '../../store'
 import { Typography } from '../ui'
 
 export const Content = observer(() => {
@@ -10,7 +11,10 @@ export const Content = observer(() => {
     } = useContext(RootStoreContext)
 
     const img = userQuery?.data?.data?.profileImage
-    const fullName = `${userQuery?.data?.data?.firstName} ${userQuery?.data?.data?.lastName}`
+    const fullName =
+        (userQuery?.data?.data?.lastName || userQuery?.data?.data?.firstName) &&
+        `${userQuery?.data?.data?.firstName} ${userQuery?.data?.data?.lastName}`
+    const contactEmail = userQuery?.data?.data?.contactEmail
     return (
         <div className="layout-preview__phone_content">
             <div
@@ -18,14 +22,19 @@ export const Content = observer(() => {
             >
                 <img src={img} alt="" />
             </div>
-            <div
-                className={`layout-preview__phone_content_placeholder ${fullName ? '' : 'skeleton'}`}
+            <Typography
+                className={`${!(!userQuery?.data?.data?.firstName && !userQuery?.data?.data?.lastName) ? '' : 'skeleton'}`}
+                fontWeight={'600'}
             >
-                <Typography>{fullName}</Typography>
-            </div>
-            <div
-                className={`layout-preview__phone_content_placeholder_small skeleton`}
-            ></div>
+                {fullName}
+            </Typography>
+            <Typography
+                className={`small ${contactEmail ? '' : 'skeleton'}`}
+                color={'grey-600'}
+                fontSize={'sm'}
+            >
+                {contactEmail}
+            </Typography>
             <Links></Links>
         </div>
     )

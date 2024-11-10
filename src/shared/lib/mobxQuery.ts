@@ -21,7 +21,7 @@ export class MobxQuery<
         TQueryData,
         TQueryKey
     >
-    private observer?: QueryObserver<
+    private readonly observer: QueryObserver<
         TQueryFnData,
         TError,
         TData,
@@ -43,15 +43,14 @@ export class MobxQuery<
         >,
         private queryClient: QueryClient
     ) {
-        const defaultOptions =
-            queryClient.defaultQueryOptions(options)
+        const defaultOptions = queryClient.defaultQueryOptions(options)
         this.defaultOptions = defaultOptions
         this.observer = new QueryObserver(this.queryClient, defaultOptions)
     }
 
     query() {
         this.atom.reportObserved()
-        return this.observer?.getCurrentResult()
+        return this.observer.getCurrentResult()
     }
 
     update() {
