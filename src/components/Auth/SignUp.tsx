@@ -2,9 +2,9 @@ import { useContext, useRef } from 'react'
 
 import { Button, Input, Typography } from '../ui'
 import { LetterIcon, LockIcon } from '../Icons'
-import { InputRef } from '../../shared/types/components/ui/InputType'
-import { checkPasswordMatch } from '../../shared/utils'
-import { RootStoreContext } from '../../store'
+import { InputRef } from '@/shared/types/components/ui/InputType'
+import { checkPasswordMatch } from '@/shared/utils'
+import { RootStoreContext } from '@/store'
 
 export const SignUp = () => {
     const {

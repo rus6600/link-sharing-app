@@ -1,10 +1,10 @@
 import { makeAutoObservable } from 'mobx'
+import { AxiosError, AxiosResponse } from 'axios'
 
 import { queryClient, signUp, signIn } from '../shared/lib/api'
 import { MobxMutation } from '../shared/lib/mobxMutation'
-import { AxiosError, AxiosResponse } from 'axios'
 import { RootStore } from './index'
-import { pageEnum, UserCreateType, UserType } from '../shared/types/Entities'
+import { pageEnum, UserCreateType, UserType } from '@/shared/types/Entities'
 
 export class AuthStore {
     rootStore

@@ -1,5 +1,6 @@
-import '../../../styles/components/ui/_select.scss'
 import React from 'react'
+import Select, { Props, GroupBase } from 'react-select'
+
 import {
     ArrowIcon,
     FacebookIcon,
@@ -8,11 +9,10 @@ import {
     LinkedInIcon,
     YoutubeIcon,
 } from '../Icons'
+import { platformUnion } from '@/shared/types/components/ui/Select'
 
-import { platformUnion } from '../../shared/types/components/ui/Select'
-
-import Select, { Props, GroupBase } from 'react-select'
-import { PlatformUnionType } from '../../shared/types/Entities'
+import { PlatformUnionType } from '@/shared/types/Entities'
+import '@styles/components/ui/_select.scss'
 
 export const IconEnum: Record<platformUnion, React.ReactNode> = {
     linkedin: <LinkedInIcon />,

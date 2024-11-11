@@ -2,14 +2,15 @@ import React, { FormEvent, useContext, useRef } from 'react'
 import { observer } from 'mobx-react-lite'
 
 import { Logo } from '../Header/Logo'
-import { RootStoreContext } from '../../store'
+import { RootStoreContext } from '@/store'
 import { SignIn } from './SignIn'
 import { SignUp } from './SignUp'
-import '../../../styles/components/_auth.scss'
-import '../../../styles/components/_header.scss'
 import { Modal } from '../ui/Modal'
 import { Button, Typography } from '../ui'
-import { pageEnum } from '../../shared/types/Entities'
+import { pageEnum } from '@/shared/types/Entities'
+
+import '@styles/components/_auth.scss'
+import '@styles/components/_header.scss'
 
 export const WithAuth: React.FC<{ children: React.ReactNode }> = observer(
     ({ children }) => {

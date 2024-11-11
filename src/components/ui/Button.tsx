@@ -1,10 +1,6 @@
-import '../../../styles/components/ui/_button.scss'
+import '@styles/components/ui/_button.scss'
 
-import {
-    ButtonPropsType,
-    ButtonVariantEnum,
-    ButtonLinkType,
-} from '../../shared'
+import { ButtonPropsType, ButtonVariantEnum, ButtonLinkType } from '@/shared'
 
 export const Button = ({
     variant,

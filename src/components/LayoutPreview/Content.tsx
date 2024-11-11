@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 
 import { Links } from './Links'
-import { RootStoreContext } from '../../store'
+import { RootStoreContext } from '@/store'
 import { Typography } from '../ui'
 
 export const Content = observer(() => {

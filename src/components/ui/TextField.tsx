@@ -1,6 +1,6 @@
 import React from 'react'
 
-import '../../../styles/components/ui/_textfield.scss'
+import '@styles/components/ui/_textfield.scss'
 
 interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
     icon?: React.ReactElement

@@ -2,9 +2,9 @@ import { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 
 import { CustomizeLinks } from '../CustomizeLinks'
-import { RootStoreContext } from '../../store'
-import { ProfileDetails } from '../ProfileDetails'
-import { pageEnum } from '../../shared/types/Entities'
+import { RootStoreContext } from '@/store'
+import { ProfileDetails } from '@/components'
+import { pageEnum } from '@/shared/types/Entities'
 
 export const Edit = observer(() => {
     const {

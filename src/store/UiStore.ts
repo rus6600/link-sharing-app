@@ -1,6 +1,7 @@
 import { makeAutoObservable } from 'mobx'
+
 import { RootStore } from './index.ts'
-import { pageEnum, pageUnion } from '../shared/types/Entities'
+import { pageEnum, pageUnion } from '@/shared/types/Entities'
 
 export class UiStore {
     rootStore

@@ -2,11 +2,11 @@ import { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 
 import { LinksIcon, UserIcon } from '../Icons'
-import '../../../styles/components/_header.scss'
 import { Logo } from './Logo'
 import { Button } from '../ui'
-import { RootStoreContext } from '../../store'
-import { pageEnum } from '../../shared/types/Entities'
+import { RootStoreContext } from '@/store'
+import { pageEnum } from '@/shared/types/Entities'
+import '@styles/components/_header.scss'
 
 export const Header = observer(() => {
     const {

@@ -1,7 +1,7 @@
 import { forwardRef, useId } from 'react'
-import '../../../styles/components/ui/_input.scss'
+import '@styles/components/ui/_input.scss'
 
-import { InputRef, InputType } from '../../shared/types/components/ui/InputType'
+import { InputRef, InputType } from '@/shared/types/components/ui/InputType'
 
 export const Input = forwardRef<InputRef, InputType>(
     ({ icon, label, errorText, flexDirection, ...rest }, ref) => {

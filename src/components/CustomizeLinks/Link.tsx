@@ -8,8 +8,8 @@ import {
     PlatformLinkRegexpEnum,
     PlatformPlaceholderEnum,
     PlatformUnionType,
-} from '../../shared/types/Entities'
-import { RootStoreContext } from '../../store'
+} from '@/shared/types/Entities'
+import { RootStoreContext } from '@/store'
 import { LinksIcon } from '../Icons'
 
 const SelectLabel = ({ platform }: { platform: PlatformUnionType }) => (

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 
-import { RootStoreContext } from '../../store'
+import { RootStoreContext } from '@/store'
 import { Button } from '../ui'
 import {
     FacebookIcon,
@@ -11,8 +11,8 @@ import {
     YoutubeIcon,
 } from '../Icons'
 import { ArrowRightIcon } from '../Icons/ArrowRightIcon'
-import { platformUnion } from '../../shared/types/components/ui/Select'
-import { pageEnum, PlatformUnionType } from '../../shared/types/Entities'
+import { platformUnion } from '@/shared/types/components/ui/Select'
+import { pageEnum, PlatformUnionType } from '@/shared/types/Entities'
 
 export const Links = observer(() => {
     const {

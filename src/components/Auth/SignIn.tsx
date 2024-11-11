@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite'
 
 import { Button, Input, Typography } from '../ui'
 import { LetterIcon, LockIcon } from '../Icons'
-import { RootStoreContext } from '../../store'
+import { RootStoreContext } from '@/store'
 
 export const SignIn = observer(() => {
     const {

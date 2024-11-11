@@ -1,19 +1,19 @@
 import { makeAutoObservable } from 'mobx'
-import { MobxMutation } from '../shared/lib/mobxMutation'
 import { AxiosError, AxiosResponse } from 'axios'
 import { DragEndEvent } from '@dnd-kit/core'
 import { SingleValue } from 'react-select'
 import { arrayMove } from '@dnd-kit/sortable'
 
 import { addUserData, getUserData, queryClient } from '../shared/lib/api'
+import { MobxMutation } from '../shared/lib/mobxMutation'
 import { MobxQuery } from '../shared/lib/mobxQuery'
 import {
     PlatformEnum,
     PlatformUnionType,
     UpdateUserType,
-} from '../shared/types/Entities'
-import { getKeys } from '../shared/utils'
-import { OptionType } from '../components/ui'
+} from '@/shared/types/Entities'
+import { getKeys } from '@/shared/utils'
+import { OptionType } from '@/components/ui'
 import { RootStore } from './index.ts'
 
 export class UserStore {

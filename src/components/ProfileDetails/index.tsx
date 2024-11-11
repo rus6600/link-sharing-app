@@ -1,10 +1,10 @@
 import React, { ChangeEvent, ChangeEventHandler, useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 
-import '../../../styles/components/_profile-details.scss'
 import { Button, ImageInput, Input, Typography } from '../ui'
-import { RootStoreContext } from '../../store'
-import { fileToDataString } from '../../shared/utils'
+import { RootStoreContext } from '@/store'
+import { fileToDataString } from '@/shared/utils'
+import '@styles/components/_profile-details.scss'
 
 export const ProfileDetails = observer(() => {
     const {

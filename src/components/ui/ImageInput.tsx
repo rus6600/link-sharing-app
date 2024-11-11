@@ -1,4 +1,4 @@
-import '../../../styles/components/ui/_imageInput.scss'
+import '@styles/components/ui/_imageInput.scss'
 
 import { UploadIcon } from '../Icons'
 import React, { ChangeEventHandler } from 'react'

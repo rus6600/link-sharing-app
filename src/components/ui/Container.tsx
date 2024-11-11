@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import '../../../styles/components/ui/_container.scss'
+import '@styles/components/ui/_container.scss'
 
 export const Container = ({
     children,

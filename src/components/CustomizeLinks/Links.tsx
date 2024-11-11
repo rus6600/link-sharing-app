@@ -8,10 +8,10 @@ import {
 } from '@dnd-kit/modifiers'
 import { observer } from 'mobx-react-lite'
 
-import { RootStoreContext } from '../../store'
+import { RootStoreContext } from '@/store'
 import { GetStarted } from '../Icons'
 import { Button, Typography } from '../ui'
-import { PlatformUnionType } from '../../shared/types/Entities'
+import { PlatformUnionType } from '@/shared/types/Entities'
 
 export const Links = observer(() => {
     const {

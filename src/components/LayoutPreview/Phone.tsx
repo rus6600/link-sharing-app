@@ -1,5 +1,4 @@
-import { PhoneInner } from './PhoneInner'
-import { PhoneOuter } from './PhoneOuter'
+import { PhoneInner, PhoneOuter } from '@/components'
 
 export const Phone: React.FC<{ children?: React.ReactNode }> = ({
     children,
